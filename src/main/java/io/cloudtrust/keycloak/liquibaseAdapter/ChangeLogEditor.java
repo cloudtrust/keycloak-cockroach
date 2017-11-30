@@ -13,10 +13,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -206,6 +203,81 @@ public class ChangeLogEditor {
     }
 
     /**
+     * The Keycloak migration script contain tags that are specific to a given database type. We want them gone.
+     */
+    private void removeModifySql() {
+        for (DatabaseChangeLog.ChangeSet changeset : changeSetList) {
+            List<DatabaseChangeLog.ChangeSet.ModifySql> toRemove = changeset.getModifySql().stream().
+                    filter(DatabaseChangeLog.ChangeSet.ModifySql.class::isInstance).map(DatabaseChangeLog.ChangeSet.ModifySql.class::cast)
+                    .collect(Collectors.toList());
+            if (!toRemove.isEmpty()) {
+                changeset.getModifySql().removeAll(toRemove);
+                System.out.format("Removed %d ModifySql\n", toRemove.size());
+            }
+        }
+    }
+
+    /**
+     * It seems that some things are transactional in Cockroach DB. e.g. if you add a column to a table, it won't be available in the same transaction.
+     * To fix this, we put each and every action in its own changeset.
+     */
+    private void oneActionPerChangeset() {
+
+        // Changeset list
+        List<Object> changeSets = dcl.getChangeSetOrIncludeOrIncludeAll();
+
+        // We split all the changeset into changesubsets
+        List<Object> toRemove = new ArrayList<>();
+        List<Object> toAdd = new ArrayList<>();
+        for (Object object : changeSets) {
+            if (object instanceof DatabaseChangeLog.ChangeSet) {
+                // We add the changesubset
+                toAdd.addAll(makeChangeSubset((DatabaseChangeLog.ChangeSet) object));
+                // We remove the changeset
+                toRemove.add(object);
+            }
+        }
+        System.out.println("We will add " + toAdd.size() + " and remove " + toRemove.size());
+        changeSets.removeAll(toRemove);
+        changeSets.addAll(toAdd);
+
+    }
+
+    private List<DatabaseChangeLog.ChangeSet> makeChangeSubset(DatabaseChangeLog.ChangeSet changeset) {
+        List<DatabaseChangeLog.ChangeSet> subChangesets = new ArrayList<>();
+        // We put the children aside
+        List<Object> children = changeset.getChangeSetChildren();
+        // For each child, we create a new changeset
+        for (int i=0; i<children.size(); i++) {
+            Object child = children.get(i);
+
+            // We make a clone of the changeset
+            DatabaseChangeLog.ChangeSet subChangeset = new DatabaseChangeLog.ChangeSet();
+            subChangeset.setId(changeset.getId() + "_sub_" + i);
+            subChangeset.setAuthor(changeset.getAuthor());
+            subChangeset.setContext(changeset.getContext());
+            subChangeset.setDbms(changeset.getDbms());
+            subChangeset.setFailOnError(changeset.getFailOnError());
+            subChangeset.setLogicalFilePath(changeset.getLogicalFilePath());
+            subChangeset.setObjectQuotingStrategy(changeset.getObjectQuotingStrategy());
+            subChangeset.setOnValidationFail(changeset.getOnValidationFail());
+            subChangeset.setPreConditions(changeset.getPreConditions());
+            subChangeset.setRunAlways(changeset.getRunAlways());
+            subChangeset.setRunInTransaction(changeset.getRunInTransaction());
+            subChangeset.setRunOnChange(changeset.getRunOnChange());
+            subChangeset.setTagDatabase(changeset.getTagDatabase());
+
+            // We add the child
+            subChangeset.getChangeSetChildren().add(child);
+
+            // We add the subchangeset
+            subChangesets.add(subChangeset);
+
+        }
+        return subChangesets;
+    }
+
+    /**
      * Prints the current DatabaseChangeLog to the same path as the initially read file, but attaching the
      * -cockroachdb suffix. If the file already exists, it will be replaced.
      *
@@ -245,7 +317,7 @@ public class ChangeLogEditor {
     }
 
     public static void main(String[] in) {
-        Path changeLogsLocation = Paths.get("/home/add/CloudTrust/keycloak-stable/model/jpa/src/main/resources/META-INF/");
+        Path changeLogsLocation = Paths.get("/home/fratt/CloudTrust/git/keycloak-3.3.0.Final/keycloak/model/jpa/src/main/resources/META-INF/");
         Path current = null;
         ChangeLogEditor cle = new ChangeLogEditor();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(changeLogsLocation, "jpa-changelog*.xml")) {
@@ -254,12 +326,28 @@ public class ChangeLogEditor {
             list.sort(Comparator.comparing(Path::toString));
             list.removeIf(path -> path.toString().contains("-db2"));
             list.removeIf(path -> path.toString().contains("-cockroachdb"));
+
+            // We blacklist the files we manually touched to prevent them from being overwritten
+            /*
+            list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.1.0.Beta1.xml"));
+            list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.2.0.CR1.xml"));
+            list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.3.0.xml"));
+            list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.4.0.xml"));
+            list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.6.1.xml"));
+            list.removeIf(path -> path.toString().endsWith("jpa-changelog-2.5.0.xml"));
+            list.removeIf(path -> path.toString().endsWith("jpa-changelog-3.2.0.xml"));
+            */
+
+
             for (Path entry : list) {
                 current = entry;
+                System.out.format("*** %s ***\n", entry.toString());
                 cle.loadDatabaseChangeLog(entry.toString());
                 cle.mergeAddPrimeryKeyIntoCreateTable();
                 cle.createIndexesForForeignKeys();
                 cle.changeDropUniqueConstraintToDropIndex();
+                cle.removeModifySql();
+                cle.oneActionPerChangeset();
                 cle.printToFile();
             }
         } catch (Exception e) {
