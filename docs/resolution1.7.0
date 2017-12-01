@@ -1,0 +1,24 @@
+[#1]
+
+- Remove the changesets 1.7.0_sub_14, which contain the following :
+
+    <changeSet id="1.7.0_sub_14" author="bburke@redhat.com" runInTransaction="true">
+        <modifyDataType columnName="PASSWORD_POLICY" newDataType="VARCHAR(2550)" tableName="REALM"/>
+    </changeSet>
+	
+- Replace by the following changesets
+
+	<changeSet id="1.7.0_sub_14a" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="REALM">
+            <column name="PASSWORD_POLICY_2" type="VARCHAR(2550)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.7.0_sub_14b" author="bburke@redhat.com" runInTransaction="true">
+        <sql>update REALM set PASSWORD_POLICY_2 = PASSWORD_POLICY</sql>
+    </changeSet>
+    <changeSet id="1.7.0_sub_14c" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn tableName="REALM" columnName="PASSWORD_POLICY" />
+    </changeSet>
+    <changeSet id="1.7.0_sub_14d" author="bburke@redhat.com" runInTransaction="true">
+        <renameColumn tableName="REALM" oldColumnName="PASSWORD_POLICY_2" newColumnName="PASSWORD_POLICY" />
+    </changeSet>

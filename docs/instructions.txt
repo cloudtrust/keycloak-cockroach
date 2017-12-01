@@ -16,24 +16,32 @@ jpa-changelog-1.3.0-cockroachdb.xml
 	1.3.0_sub_25
 	ERROR: cannot drop primary key [Failed SQL: ALTER TABLE keycloak.USER_REQUIRED_ACTION DROP CONSTRAINT CONSTRAINT_2]
 	--> Reason : Cannot drop a primary key, we must recreate the whole table and copy the content.
-	--> Solution : Recreate the table (resolution1.3.0. #1)
+	--> Solution : Recreate the table (resolution1.3.0 #1)
 	
 	1.3.0_sub_31
     ERROR: cannot drop primary key [Failed SQL: ALTER TABLE keycloak.PROTOCOL_MAPPER_CONFIG DROP CONSTRAINT "CONSTRAINT_PMConfig"]
 	--> Reason : Cannot drop a primary key, we must recreate the whole table and copy the content.
-	--> Solution : Recreate the table (resolution1.3.0. #2)
+	--> Solution : Recreate the table (resolution1.3.0 #2)
 	
 	1.3.0_sub_34
     ERROR: cannot drop primary key [Failed SQL: ALTER TABLE keycloak.IDP_MAPPER_CONFIG DROP CONSTRAINT "CONSTRAINT_IDPMConfig"]
 	--> Reason : Cannot drop a primary key, we must recreate the whole table and copy the content.
-	--> Solution : Recreate the table (resolution1.3.0. #3)
+	--> Solution : Recreate the table (resolution1.3.0 #3)
 
 jpa-changelog-1.4.0-cockroachdb.xml
 
 	1.4.0_sub_29
 	ERROR: cannot drop primary key [Failed SQL: ALTER TABLE keycloak.USER_ATTRIBUTE DROP CONSTRAINT CONSTRAINT_6]
 	--> Reason : Cannot drop a primary key, we must recreate the whole table and copy the content.
-	--> Solution : Recreate the table (resolution1.4.0. #1
+	--> Solution : Recreate the table (resolution1.4.0 #1)
 	
+jpa-changelog-1.7.0-cockroachdb.xml
+
+	1.7.0_sub_14:
+	ERROR: unimplemented at or near "EOF"
+	Failed SQL: ALTER TABLE keycloak.REALM ALTER COLUMN PASSWORD_POLICY TYPE VARCHAR(2550) USING (PASSWORD_POLICY::VARCHAR(2550))
+	--> Reason : Changing the type of a column is not implemented in Cockroach.
+	--> Solution : Create a new column, copy the data, delete the old column, rename the new column. (resolution1.7.0 #1)
+	--> Next step : AUTOMATE THIS
 	
-WIP...	
+WIP...
