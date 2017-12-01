@@ -1,0 +1,100 @@
+[#1]
+
+- Remove the changesets 1.3.0_sub25 to 1.3.0_sub27, which contain the following :
+
+	<dropPrimaryKey constraintName="CONSTRAINT_2" tableName="USER_REQUIRED_ACTION"/>
+	<dropColumn columnName="ACTION" tableName="USER_REQUIRED_ACTION"/>
+	<addPrimaryKey columnNames="REQUIRED_ACTION, USER_ID" constraintName="CONSTRAINT_REQUIRED_ACTION" tableName="USER_REQUIRED_ACTION"/>
+		
+- Add those changesets instead :
+
+    <changeSet id="1.3.0_sub_25a" author="bburke@redhat.com">
+        <createTable tableName="USER_REQUIRED_ACTION_2">
+            <column name="USER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_REQUIRED_ACTION"/>
+            </column>
+            <column name="REQUIRED_ACTION" type="VARCHAR(255)" defaultValue=" ">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_REQUIRED_ACTION"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.3.0_sub_25b" author="bburke@redhat.com">
+        <sql>insert into USER_REQUIRED_ACTION_2 (USER_ID,REQUIRED_ACTION) select USER_ID, REQUIRED_ACTION from USER_REQUIRED_ACTION</sql>
+    </changeSet>
+    <changeSet id="1.3.0_sub_25c" author="bburke@redhat.com">
+        <dropTable tableName="USER_REQUIRED_ACTION"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_25d" author="bburke@redhat.com">
+        <renameTable oldTableName="USER_REQUIRED_ACTION_2" newTableName="USER_REQUIRED_ACTION"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_25e" author="bburke@redhat.com">
+        <createIndex tableName="USER_REQUIRED_ACTION" indexName="FK_6QJ3W1JW9CVAFHE19BWSIUVMD">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+	
+----------------------------------------------------------------------------------------------------------------------------------------
+
+[#2]
+		
+- Remove the changesets 1.3.0_sub31 to 1.3.0_sub32, which contain the following :
+
+        <dropPrimaryKey constraintName="CONSTRAINT_PMConfig" tableName="PROTOCOL_MAPPER_CONFIG"/>
+        <addPrimaryKey columnNames="PROTOCOL_MAPPER_ID, NAME" constraintName="CONSTRAINT_PMCONFIG" tableName="PROTOCOL_MAPPER_CONFIG"/>
+
+- Add those changesets instead :
+
+	<changeSet id="1.3.0_sub_31a" author="bburke@redhat.com">
+        <createTable tableName="PROTOCOL_MAPPER_CONFIG_2">
+            <column name="PROTOCOL_MAPPER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_PMCONFIG"/>
+            </column>
+            <column name="VALUE" type="CLOB"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_PMCONFIG"/>
+            </column>
+        </createTable>
+	</changeSet>
+	<changeSet id="1.3.0_sub_31b" author="bburke@redhat.com">
+        <sql>insert into PROTOCOL_MAPPER_CONFIG_2 (PROTOCOL_MAPPER_ID,VALUE,NAME) select PROTOCOL_MAPPER_ID,VALUE,NAME from PROTOCOL_MAPPER_CONFIG</sql>
+	</changeSet>
+	<changeSet id="1.3.0_sub_31c" author="bburke@redhat.com">
+        <dropTable tableName="PROTOCOL_MAPPER_CONFIG"/>
+	</changeSet>
+	<changeSet id="1.3.0_sub_31d" author="bburke@redhat.com">
+        <renameTable oldTableName="PROTOCOL_MAPPER_CONFIG_2" newTableName="PROTOCOL_MAPPER_CONFIG"/>
+	</changeSet>
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+[#3]
+
+- Remove the changesets 1.3.0_sub34 to 1.3.0_sub35, which contain the following :
+
+Replace this :
+
+        <dropPrimaryKey constraintName="CONSTRAINT_IDPMConfig" tableName="IDP_MAPPER_CONFIG"/>
+        <addPrimaryKey columnNames="IDP_MAPPER_ID, NAME" constraintName="CONSTRAINT_IDPMCONFIG" tableName="IDP_MAPPER_CONFIG"/>
+		
+By this :
+		
+	<changeSet id="1.3.0_sub_34a" author="bburke@redhat.com">
+        <createTable tableName="IDP_MAPPER_CONFIG_2">
+            <column name="IDP_MAPPER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_IDPMCONFIG"/>
+            </column>
+            <column name="VALUE" type="CLOB"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_IDPMCONFIG"/>
+            </column>
+        </createTable>
+	</changeSet>
+	<changeSet id="1.3.0_sub_34b" author="bburke@redhat.com">
+        <sql>insert into IDP_MAPPER_CONFIG_2 (IDP_MAPPER_ID,VALUE,NAME) select IDP_MAPPER_ID,VALUE,NAME from IDP_MAPPER_CONFIG</sql>
+	</changeSet>
+	<changeSet id="1.3.0_sub_34c" author="bburke@redhat.com">
+        <dropTable tableName="IDP_MAPPER_CONFIG"/>
+	</changeSet>
+	<changeSet id="1.3.0_sub_34d" author="bburke@redhat.com">
+        <renameTable oldTableName="IDP_MAPPER_CONFIG_2" newTableName="IDP_MAPPER_CONFIG"/>
+	</changeSet>

@@ -1,0 +1,39 @@
+*** How to work on this task ***
+
+- Clean-up the DB : DROP DATABASE keycloak CASCADE; CREATE DATABASE keycloak; GRANT ALL ON DATABASE keycloak TO keycloak;
+- Adapt the moulinette
+- Rebuild the project "keycloak-model-pom and modules" because the scripts are stored in /keycloak/model/jpa/src/main/resources/META-INF/
+- Run the moulinette
+- Run the unit test "PermissionsTest"
+- If errors, goto 1...
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+*** Errors that must be fixed by hand (for now at least) ***
+
+jpa-changelog-1.3.0-cockroachdb.xml
+
+	1.3.0_sub_25
+	ERROR: cannot drop primary key [Failed SQL: ALTER TABLE keycloak.USER_REQUIRED_ACTION DROP CONSTRAINT CONSTRAINT_2]
+	--> Reason : Cannot drop a primary key, we must recreate the whole table and copy the content.
+	--> Solution : Recreate the table (resolution1.3.0. #1)
+	
+	1.3.0_sub_31
+    ERROR: cannot drop primary key [Failed SQL: ALTER TABLE keycloak.PROTOCOL_MAPPER_CONFIG DROP CONSTRAINT "CONSTRAINT_PMConfig"]
+	--> Reason : Cannot drop a primary key, we must recreate the whole table and copy the content.
+	--> Solution : Recreate the table (resolution1.3.0. #2)
+	
+	1.3.0_sub_34
+    ERROR: cannot drop primary key [Failed SQL: ALTER TABLE keycloak.IDP_MAPPER_CONFIG DROP CONSTRAINT "CONSTRAINT_IDPMConfig"]
+	--> Reason : Cannot drop a primary key, we must recreate the whole table and copy the content.
+	--> Solution : Recreate the table (resolution1.3.0. #3)
+
+jpa-changelog-1.4.0-cockroachdb.xml
+
+	1.4.0_sub_29
+	ERROR: cannot drop primary key [Failed SQL: ALTER TABLE keycloak.USER_ATTRIBUTE DROP CONSTRAINT CONSTRAINT_6]
+	--> Reason : Cannot drop a primary key, we must recreate the whole table and copy the content.
+	--> Solution : Recreate the table (resolution1.4.0. #1
+	
+	
+WIP...	
