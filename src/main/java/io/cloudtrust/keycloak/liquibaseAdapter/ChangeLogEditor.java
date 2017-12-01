@@ -203,6 +203,72 @@ public class ChangeLogEditor {
     }
 
     /**
+     * In cockroach DB, it's not possible to change the type of a column. It is possible though to add and remove
+     * columns. This method translates all "change column type" into "create new column, copy data from old to new,
+     * delete old column, rename new column"
+     */
+    private void changeModifyDataTypeToRecreateColumn() {
+        for (DatabaseChangeLog.ChangeSet changeset : changeSetList) {
+
+            List<ModifyDataType> modifyDataTypes = changeset.getChangeSetChildren().stream().
+                    filter(ModifyDataType.class::isInstance).map(ModifyDataType.class::cast)
+                    .collect(Collectors.toList());
+            for (ModifyDataType modifyDataType : modifyDataTypes) {
+
+                // We read the table name, column name and  new data type
+                // Note : I looked in all the existing .xml, that's the only 3 parameters that are used for this tag
+                // SchemaName and CatalogName are never used.
+                String tableName = modifyDataType.getTableName();
+                String columnName = modifyDataType.getColumnName();
+                String dataType = modifyDataType.getNewDataType();
+
+                Collection toAdd = new ArrayList();
+
+                // Step 1 : We add the new column
+                AddColumn.Column column = new AddColumn.Column();
+                column.setName(columnName + "_2");
+                column.setType(dataType);
+                AddColumn addColumn = new AddColumn();
+                addColumn.setTableName(tableName);
+                addColumn.getColumn().add(column);
+                toAdd.add(addColumn);
+
+                // Step 2 : We copy the data to from the old column to the new column
+                Sql sql = new Sql();
+                StringBuilder sqlBuilder = new StringBuilder();
+                sqlBuilder.append("update ");
+                sqlBuilder.append(tableName);
+                sqlBuilder.append(" set ");
+                sqlBuilder.append(columnName);
+                sqlBuilder.append("_2 = ");
+                sqlBuilder.append(columnName);
+                sql.getContent().add(sqlBuilder.toString());
+                toAdd.add(sql);
+
+                // Step 3 : We drop the old column
+                DropColumn dropColumn = new DropColumn();
+                dropColumn.setTableName(tableName);
+                dropColumn.setColumnName(columnName);
+                toAdd.add(dropColumn);
+
+                // Step 4 : We rename the new column
+                RenameColumn renameColumn = new RenameColumn();
+                renameColumn.setTableName(tableName);
+                renameColumn.setOldColumnName(columnName + "_2");
+                renameColumn.setNewColumnName(columnName);
+                toAdd.add(renameColumn);
+
+                // We insert the new queries
+                changeset.getChangeSetChildren().addAll(changeset.getChangeSetChildren()
+                        .indexOf(modifyDataType), toAdd);
+
+                // We remove the old query, not supported by Cockroach
+                changeset.getChangeSetChildren().remove(modifyDataType);
+            }
+        }
+    }
+
+    /**
      * The Keycloak migration script contain tags that are specific to a given database type. We want them gone.
      */
     private void removeModifySql() {
@@ -330,7 +396,6 @@ public class ChangeLogEditor {
             // We blacklist the files we manually touched to prevent them from being overwritten
             list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.3.0.xml"));
             list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.4.0.xml"));
-            list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.7.0.xml"));
 
 
             for (Path entry : list) {
@@ -340,6 +405,7 @@ public class ChangeLogEditor {
                 cle.mergeAddPrimeryKeyIntoCreateTable();
                 cle.createIndexesForForeignKeys();
                 cle.changeDropUniqueConstraintToDropIndex();
+                cle.changeModifyDataTypeToRecreateColumn();
                 cle.removeModifySql();
                 cle.oneActionPerChangeset();
                 cle.printToFile();

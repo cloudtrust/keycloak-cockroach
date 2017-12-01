@@ -35,13 +35,4 @@ jpa-changelog-1.4.0-cockroachdb.xml
 	--> Reason : Cannot drop a primary key, we must recreate the whole table and copy the content.
 	--> Solution : Recreate the table (resolution1.4.0 #1)
 	
-jpa-changelog-1.7.0-cockroachdb.xml
-
-	1.7.0_sub_14:
-	ERROR: unimplemented at or near "EOF"
-	Failed SQL: ALTER TABLE keycloak.REALM ALTER COLUMN PASSWORD_POLICY TYPE VARCHAR(2550) USING (PASSWORD_POLICY::VARCHAR(2550))
-	--> Reason : Changing the type of a column is not implemented in Cockroach.
-	--> Solution : Create a new column, copy the data, delete the old column, rename the new column. (resolution1.7.0 #1)
-	--> Next step : AUTOMATE THIS
-	
 WIP...
