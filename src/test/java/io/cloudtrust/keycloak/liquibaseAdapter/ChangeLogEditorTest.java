@@ -50,6 +50,22 @@ public class ChangeLogEditorTest {
     }
 
     @Test
+    public void testChangeModifyDataTypeToRecreateColumn() throws  JAXBException, IOException {
+        logEditor.loadDatabaseChangeLog("/home/fratt/CloudTrust/git/keycloak-3.3.0.Final/keycloak/model/jpa/src/main/resources/META-INF/jpa-changelog-1.7.0.xml");
+        String output = logEditor.toString();
+        assertTrue(output.contains("modifyDataType"));
+        logEditor.changeModifyDataTypeToRecreateColumn();
+        output = logEditor.toString();
+        System.out.print(output);
+        assertFalse(output.contains("modifyDataType"));
+        assertTrue(output.contains("addColumn"));
+        assertTrue(output.lastIndexOf("addColumn") < output.lastIndexOf("<sql>"));
+        assertTrue(output.lastIndexOf("<sql>") < output.lastIndexOf("dropColumn"));
+        assertTrue(output.lastIndexOf("dropColumn") < output.lastIndexOf("renameColumn"));
+
+    }
+
+    @Test
     public void testChangeDropUniqueConstraintToDropIndex() throws JAXBException {
         logEditor.loadDatabaseChangeLog("/home/fratt/CloudTrust/git/keycloak-3.3.0.Final/keycloak/model/jpa/src/main/resources/META-INF/jpa-changelog-1.2.0.Beta1.xml");
         String output = logEditor.toString();

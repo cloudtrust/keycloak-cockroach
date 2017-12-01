@@ -207,7 +207,7 @@ public class ChangeLogEditor {
      * columns. This method translates all "change column type" into "create new column, copy data from old to new,
      * delete old column, rename new column"
      */
-    private void changeModifyDataTypeToRecreateColumn() {
+    public void changeModifyDataTypeToRecreateColumn() {
         for (DatabaseChangeLog.ChangeSet changeset : changeSetList) {
 
             List<ModifyDataType> modifyDataTypes = changeset.getChangeSetChildren().stream().
