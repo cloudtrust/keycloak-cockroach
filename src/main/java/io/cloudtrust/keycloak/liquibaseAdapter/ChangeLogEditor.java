@@ -328,11 +328,9 @@ public class ChangeLogEditor {
             list.removeIf(path -> path.toString().contains("-cockroachdb"));
 
             // We blacklist the files we manually touched to prevent them from being overwritten
-            /*
-            list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.1.0.Beta1.xml"));
-            list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.2.0.CR1.xml"));
             list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.3.0.xml"));
             list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.4.0.xml"));
+            /*
             list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.6.1.xml"));
             list.removeIf(path -> path.toString().endsWith("jpa-changelog-2.5.0.xml"));
             list.removeIf(path -> path.toString().endsWith("jpa-changelog-3.2.0.xml"));
