@@ -27,12 +27,5 @@ jpa-changelog-1.3.0-cockroachdb.xml
     ERROR: cannot drop primary key [Failed SQL: ALTER TABLE keycloak.IDP_MAPPER_CONFIG DROP CONSTRAINT "CONSTRAINT_IDPMConfig"]
 	--> Reason : Cannot drop a primary key, we must recreate the whole table and copy the content.
 	--> Solution : Recreate the table (resolution1.3.0 #3)
-
-jpa-changelog-1.4.0-cockroachdb.xml
-
-	1.4.0_sub_29
-	ERROR: cannot drop primary key [Failed SQL: ALTER TABLE keycloak.USER_ATTRIBUTE DROP CONSTRAINT CONSTRAINT_6]
-	--> Reason : Cannot drop a primary key, we must recreate the whole table and copy the content.
-	--> Solution : Recreate the table (resolution1.4.0 #1)
 	
 WIP...
