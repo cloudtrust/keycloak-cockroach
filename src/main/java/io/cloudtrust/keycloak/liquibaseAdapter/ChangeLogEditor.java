@@ -152,8 +152,9 @@ public class ChangeLogEditor {
             List<AddForeignKeyConstraint> foreignKeyConstraints = changeset.getChangeSetChildren().stream()
                     .filter(AddForeignKeyConstraint.class::isInstance).map(AddForeignKeyConstraint.class::cast)
                     .collect(Collectors.toList());
-            if (foreignKeyConstraints.isEmpty())
-                return;
+            if (foreignKeyConstraints.isEmpty()) {
+                continue;
+            }
             DatabaseChangeLog.ChangeSet foreignChangeSet = new DatabaseChangeLog.ChangeSet();
             foreignChangeSet.setAuthor(changeset.getAuthor());
             foreignChangeSet.setId(changeset.getId() + "_foreign");
@@ -392,10 +393,16 @@ public class ChangeLogEditor {
             list.sort(Comparator.comparing(Path::toString));
             list.removeIf(path -> path.toString().contains("-db2"));
             list.removeIf(path -> path.toString().contains("-cockroachdb"));
+            list.removeIf(path -> path.toString().endsWith("-authz-master.xml"));
 
             // We blacklist the files we manually touched to prevent them from being overwritten
+            // If it's the first time you run this script, comment-this out, then adapt the files according to the documentation.
             list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.3.0.xml"));
             list.removeIf(path -> path.toString().endsWith("jpa-changelog-1.4.0.xml"));
+            list.removeIf(path -> path.toString().endsWith("jpa-changelog-2.5.0.xml"));
+            list.removeIf(path -> path.toString().endsWith("jpa-changelog-3.2.0.xml"));
+
+
 
 
             for (Path entry : list) {

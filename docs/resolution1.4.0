@@ -2,18 +2,22 @@
 
 - Remove the changesets 1.4.0_sub_29 and 1.4.0_sub_30, which contain the following :
 
+    <changeSet id="1.4.0_sub_29" author="bburke@redhat.com" runInTransaction="true">
         <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
             <not>
                 <dbms type="db2"/>
             </not>
         </preConditions>
         <dropPrimaryKey constraintName="CONSTRAINT_6" tableName="USER_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_30" author="bburke@redhat.com" runInTransaction="true">
         <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
             <not>
                 <dbms type="db2"/>
             </not>
         </preConditions>
-		<addPrimaryKey columnNames="ID" constraintName="CONSTRAINT_USER_ATTRIBUTE_PK" tableName="USER_ATTRIBUTE"/>
+        <addPrimaryKey columnNames="ID" constraintName="CONSTRAINT_USER_ATTRIBUTE_PK" tableName="USER_ATTRIBUTE"/>
+    </changeSet>
 
 - Add those changesets instead :
 
