@@ -51,5 +51,11 @@ jpa-changelog-3.2.0-cockroachdb.xml
 	ERROR: cannot drop primary key [Failed SQL: ALTER TABLE keycloak.OFFLINE_CLIENT_SESSION DROP CONSTRAINT CONSTRAINT_OFFL_CL_SES_PK2]
 	--> Reason : Cannot drop a primary key, we must recreate the whole table and copy the content.
 	--> Solution : Recreate the table (resolution3.2.0 #1)
+
 	
-WIP
+keycloak/testsuite/integration-arquillian/servers/auth-server/services/testsuite-providers/src/main/resources/META-INF/example-changelog.xml
+
+	example-1.0
+    ERROR: multiple primary keys for table "example_company" are not allowed [Failed SQL: ALTER TABLE keycloak.EXAMPLE_COMPANY ADD CONSTRAINT PK_COMPANY PRIMARY KEY (ID)]
+	--> Reason : Cannot add a primary key later
+	--> Solution : Add the primary key on table creation, and rebuild the module "keycloak-testsuite-pom and modules" (resolution_example_1.0 #1)
