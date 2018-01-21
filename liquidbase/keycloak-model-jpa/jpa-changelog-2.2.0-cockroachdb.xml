@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="2.2.0_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="ADMIN_EVENT_ENTITY">
+            <column name="RESOURCE_TYPE" type="VARCHAR(64)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.2.0_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="CREDENTIAL_ATTRIBUTE">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREDENTIAL_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(4000)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2.2.0_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="FED_CREDENTIAL_ATTRIBUTE">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREDENTIAL_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(4000)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2.2.0_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="CREDENTIAL">
+            <column name="VALUE_2" type="VARCHAR(4000)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.2.0_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <sql>update CREDENTIAL set VALUE_2 = VALUE</sql>
+    </changeSet>
+    <changeSet id="2.2.0_sub_5" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn columnName="VALUE" tableName="CREDENTIAL"/>
+    </changeSet>
+    <changeSet id="2.2.0_sub_6" author="bburke@redhat.com" runInTransaction="true">
+        <renameColumn oldColumnName="VALUE_2" newColumnName="VALUE" tableName="CREDENTIAL"/>
+    </changeSet>
+    <changeSet id="2.2.0_index_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_CREDENTIAL_ATTRIBUTE" indexName="FK_FED_CRED_ATTR">
+            <column name="CREDENTIAL_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="2.2.0_index_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="CREDENTIAL_ATTRIBUTE" indexName="FK_CRED_ATTR">
+            <column name="CREDENTIAL_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="2.2.0_foreign_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="FED_CREDENTIAL_ATTRIBUTE" baseColumnNames="CREDENTIAL_ID" constraintName="FK_FED_CRED_ATTR" referencedTableName="FED_USER_CREDENTIAL" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="2.2.0_foreign_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CREDENTIAL_ATTRIBUTE" baseColumnNames="CREDENTIAL_ID" constraintName="FK_CRED_ATTR" referencedTableName="CREDENTIAL" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

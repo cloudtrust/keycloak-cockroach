@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="1.9.1_sub_0" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="REALM">
+            <column name="PRIVATE_KEY_2" type="VARCHAR(4000)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.9.1_sub_1" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <sql>update REALM set PRIVATE_KEY_2 = PRIVATE_KEY</sql>
+    </changeSet>
+    <changeSet id="1.9.1_sub_2" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="PRIVATE_KEY" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="1.9.1_sub_3" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="PRIVATE_KEY_2" newColumnName="PRIVATE_KEY" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="1.9.1_sub_4" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="REALM">
+            <column name="PUBLIC_KEY_2" type="VARCHAR(4000)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.9.1_sub_5" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <sql>update REALM set PUBLIC_KEY_2 = PUBLIC_KEY</sql>
+    </changeSet>
+    <changeSet id="1.9.1_sub_6" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="PUBLIC_KEY" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="1.9.1_sub_7" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="PUBLIC_KEY_2" newColumnName="PUBLIC_KEY" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="1.9.1_sub_8" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="REALM">
+            <column name="CERTIFICATE_2" type="VARCHAR(4000)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.9.1_sub_9" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <sql>update REALM set CERTIFICATE_2 = CERTIFICATE</sql>
+    </changeSet>
+    <changeSet id="1.9.1_sub_10" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="CERTIFICATE" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="1.9.1_sub_11" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="CERTIFICATE_2" newColumnName="CERTIFICATE" tableName="REALM"/>
+    </changeSet>
+</databaseChangeLog>

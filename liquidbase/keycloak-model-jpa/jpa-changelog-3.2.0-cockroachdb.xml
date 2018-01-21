@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="3.2.0-fix_sub_0" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            <not>
+                <dbms type="mssql"/>
+            </not>
+        </preConditions>
+        <addNotNullConstraint columnName="REALM_ID" columnDataType="VARCHAR(36)" tableName="CLIENT_INITIAL_ACCESS"/>
+    </changeSet>
+    <changeSet id="3.2.0-fix-with-keycloak-5416_sub_0" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            <dbms type="mssql"/>
+        </preConditions>
+        <dropIndex indexName="IDX_CLIENT_INIT_ACC_REALM" tableName="CLIENT_INITIAL_ACCESS"/>
+    </changeSet>
+    <changeSet id="3.2.0-fix-with-keycloak-5416_sub_1" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            <dbms type="mssql"/>
+        </preConditions>
+        <addNotNullConstraint columnName="REALM_ID" columnDataType="VARCHAR(36)" tableName="CLIENT_INITIAL_ACCESS"/>
+    </changeSet>
+    <changeSet id="3.2.0-fix-with-keycloak-5416_sub_2" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            <dbms type="mssql"/>
+        </preConditions>
+        <createIndex tableName="CLIENT_INITIAL_ACCESS" indexName="IDX_CLIENT_INIT_ACC_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_0" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="REALM">
+            <column name="DOCKER_AUTH_FLOW" type="VARCHAR(36)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_1a" author="keycloak">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createTable tableName="OFFLINE_CLIENT_SESSION_2">
+            <column name="USER_SESSION_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_OFFL_CL_SES_PK3"/>
+            </column>
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_OFFL_CL_SES_PK3"/>
+            </column>
+            <column name="OFFLINE_FLAG" type="VARCHAR(4)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_OFFL_CL_SES_PK3"/>
+            </column>
+            <column name="TIMESTAMP" type="INT"/>
+            <column name="DATA" type="CLOB"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_1b" author="keycloak">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <sql>insert into OFFLINE_CLIENT_SESSION_2 (USER_SESSION_ID,CLIENT_ID,OFFLINE_FLAG,TIMESTAMP,DATA) select USER_SESSION_ID,CLIENT_ID,OFFLINE_FLAG,TIMESTAMP,DATA from OFFLINE_CLIENT_SESSION</sql>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_1c" author="keycloak">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <dropTable tableName="OFFLINE_CLIENT_SESSION"/>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_1d" author="keycloak">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <renameTable oldTableName="OFFLINE_CLIENT_SESSION_2" newTableName="OFFLINE_CLIENT_SESSION"/>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_1e" author="keycloak">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="OFFLINE_CLIENT_SESSION" indexName="IDX_US_SESS_ID_ON_CL_SESS">
+            <column name="USER_SESSION_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_4" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CLIENT_INITIAL_ACCESS">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CNSTR_CLIENT_INIT_ACC_PK"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TIMESTAMP" type="INT"/>
+            <column name="EXPIRATION" type="INT"/>
+            <column name="COUNT" type="INT"/>
+            <column name="REMAINING_COUNT" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_5" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="ASSOCIATED_POLICY" indexName="IDX_ASSOC_POL_ASSOC_POL_ID">
+            <column name="ASSOCIATED_POLICY_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_6" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="AUTHENTICATION_EXECUTION" indexName="IDX_AUTH_EXEC_REALM_FLOW">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+            <column name="FLOW_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_7" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="AUTHENTICATION_EXECUTION" indexName="IDX_AUTH_EXEC_FLOW">
+            <column name="FLOW_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_8" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="AUTHENTICATION_FLOW" indexName="IDX_AUTH_FLOW_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_9" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="AUTHENTICATOR_CONFIG" indexName="IDX_AUTH_CONFIG_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_10" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="CLIENT" indexName="IDX_CLIENT_CLIENT_TEMPL_ID">
+            <column name="CLIENT_TEMPLATE_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_11" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="CLIENT_DEFAULT_ROLES" indexName="IDX_CLIENT_DEF_ROLES_CLIENT">
+            <column name="CLIENT_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_12" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="CLIENT_IDENTITY_PROV_MAPPING" indexName="IDX_CLIENT_ID_PROV_MAP_CLIENT">
+            <column name="CLIENT_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_13" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="CLIENT_SESSION" indexName="IDX_CLIENT_SESSION_SESSION">
+            <column name="SESSION_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_14" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="COMPONENT" indexName="IDX_COMPONENT_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_15" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="COMPONENT_CONFIG" indexName="IDX_COMPO_CONFIG_COMPO">
+            <column name="COMPONENT_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_16" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="COMPOSITE_ROLE" indexName="IDX_COMPOSITE">
+            <column name="COMPOSITE" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_17" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="COMPOSITE_ROLE" indexName="IDX_COMPOSITE_CHILD">
+            <column name="CHILD_ROLE" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_18" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="CREDENTIAL_ATTRIBUTE" indexName="IDX_CREDENTIAL_ATTR_CRED">
+            <column name="CREDENTIAL_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_19" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="FED_CREDENTIAL_ATTRIBUTE" indexName="IDX_FED_CRED_ATTR_CRED">
+            <column name="CREDENTIAL_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_20" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="GROUP_ATTRIBUTE" indexName="IDX_GROUP_ATTR_GROUP">
+            <column name="GROUP_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_21" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="GROUP_ROLE_MAPPING" indexName="IDX_GROUP_ROLE_MAPP_GROUP">
+            <column name="GROUP_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_22" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="IDENTITY_PROVIDER" indexName="IDX_IDENT_PROV_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_23" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="IDENTITY_PROVIDER_MAPPER" indexName="IDX_ID_PROV_MAPP_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_24" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="KEYCLOAK_ROLE" indexName="IDX_KEYCLOAK_ROLE_CLIENT">
+            <column name="CLIENT" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_25" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="KEYCLOAK_ROLE" indexName="IDX_KEYCLOAK_ROLE_REALM">
+            <column name="REALM" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_26" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="PROTOCOL_MAPPER" indexName="IDX_PROTOCOL_MAPPER_CLIENT">
+            <column name="CLIENT_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_27" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="PROTOCOL_MAPPER" indexName="IDX_PROTO_MAPP_CLIENT_TEMPL">
+            <column name="CLIENT_TEMPLATE_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_28" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="REALM" indexName="IDX_REALM_MASTER_ADM_CLI">
+            <column name="MASTER_ADMIN_CLIENT" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_29" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="REALM_ATTRIBUTE" indexName="IDX_REALM_ATTR_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_30" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="REALM_DEFAULT_GROUPS" indexName="IDX_REALM_DEF_GRP_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_31" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="REALM_DEFAULT_ROLES" indexName="IDX_REALM_DEF_ROLES_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_32" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="REALM_ENABLED_EVENT_TYPES" indexName="IDX_REALM_EVT_TYPES_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_33" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="REALM_EVENTS_LISTENERS" indexName="IDX_REALM_EVT_LIST_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_34" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="REALM_SUPPORTED_LOCALES" indexName="IDX_REALM_SUPP_LOCAL_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_35" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="REDIRECT_URIS" indexName="IDX_REDIR_URI_CLIENT">
+            <column name="CLIENT_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_36" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="REQUIRED_ACTION_PROVIDER" indexName="IDX_REQ_ACT_PROV_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_37" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="RESOURCE_POLICY" indexName="IDX_RES_POLICY_POLICY">
+            <column name="POLICY_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_38" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="RESOURCE_SCOPE" indexName="IDX_RES_SCOPE_SCOPE">
+            <column name="SCOPE_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_39" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="RESOURCE_SERVER_POLICY" indexName="IDX_RES_SERV_POL_RES_SERV">
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_40" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="RESOURCE_SERVER_RESOURCE" indexName="IDX_RES_SRV_RES_RES_SRV">
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_41" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="RESOURCE_SERVER_SCOPE" indexName="IDX_RES_SRV_SCOPE_RES_SRV">
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_42" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="SCOPE_MAPPING" indexName="IDX_SCOPE_MAPPING_ROLE">
+            <column name="ROLE_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_43" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="SCOPE_POLICY" indexName="IDX_SCOPE_POLICY_POLICY">
+            <column name="POLICY_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_44" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="TEMPLATE_SCOPE_MAPPING" indexName="IDX_TEMPL_SCOPE_MAPP_ROLE">
+            <column name="ROLE_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_45" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="USER_FEDERATION_MAPPER" indexName="IDX_USR_FED_MAP_FED_PRV">
+            <column name="FEDERATION_PROVIDER_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_46" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="USER_FEDERATION_MAPPER" indexName="IDX_USR_FED_MAP_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_47" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="USER_FEDERATION_PROVIDER" indexName="IDX_USR_FED_PRV_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_48" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="WEB_ORIGINS" indexName="IDX_WEB_ORIG_CLIENT">
+            <column name="CLIENT_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_sub_49" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <changeSetExecuted id="3.2.0" author="keycloak" changeLogFile="META-INF/jpa-changelog-3.2.0.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="CLIENT_INITIAL_ACCESS" indexName="IDX_CLIENT_INIT_ACC_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_index_sub_0" author="keycloak" runInTransaction="true">
+        <createIndex tableName="CLIENT_INITIAL_ACCESS" indexName="FK_CLIENT_INIT_ACC_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.2.0-fixed_foreign_sub_0" author="keycloak" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_INITIAL_ACCESS" baseColumnNames="REALM_ID" constraintName="FK_CLIENT_INIT_ACC_REALM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

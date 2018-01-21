@@ -1,0 +1,887 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="1.0.0.Final_sub_0" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="APPLICATION_DEFAULT_ROLES">
+            <column name="APPLICATION_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_1" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CLIENT">
+            <column name="DTYPE" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_7"/>
+            </column>
+            <column name="ALLOWED_CLAIMS_MASK" type="BIGINT"/>
+            <column name="ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FULL_SCOPE_ALLOWED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="NOT_BEFORE" type="INT"/>
+            <column name="PUBLIC_CLIENT" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SECRET" type="VARCHAR(255)"/>
+            <column name="BASE_URL" type="VARCHAR(255)"/>
+            <column name="BEARER_ONLY" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MANAGEMENT_URL" type="VARCHAR(255)"/>
+            <column name="SURROGATE_AUTH_REQUIRED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DIRECT_GRANTS_ONLY" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_2" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CLIENT_SESSION">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_8"/>
+            </column>
+            <column name="ACTION" type="INT"/>
+            <column name="CLIENT_ID" type="VARCHAR(36)"/>
+            <column name="REDIRECT_URI" type="VARCHAR(255)"/>
+            <column name="STATE" type="VARCHAR(255)"/>
+            <column name="TIMESTAMP" type="INT"/>
+            <column name="SESSION_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_3" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CLIENT_SESSION_ROLE">
+            <column name="ROLE_ID" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_5"/>
+            </column>
+            <column name="CLIENT_SESSION" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_5"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_4" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="COMPOSITE_ROLE">
+            <column name="COMPOSITE" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CHILD_ROLE" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_5" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CREDENTIAL">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_F"/>
+            </column>
+            <column name="DEVICE" type="VARCHAR(255)"/>
+            <column name="HASH_ITERATIONS" type="INT"/>
+            <column name="SALT" type="BLOB(16)"/>
+            <column name="TYPE" type="VARCHAR(255)"/>
+            <column name="VALUE" type="VARCHAR(255)"/>
+            <column name="USER_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_6" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="EVENT_ENTITY">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_4"/>
+            </column>
+            <column name="CLIENT_ID" type="VARCHAR(255)"/>
+            <column name="DETAILS_JSON" type="VARCHAR(2550)"/>
+            <column name="ERROR" type="VARCHAR(255)"/>
+            <column name="IP_ADDRESS" type="VARCHAR(255)"/>
+            <column name="REALM_ID" type="VARCHAR(255)"/>
+            <column name="SESSION_ID" type="VARCHAR(255)"/>
+            <column name="TIME" type="BIGINT"/>
+            <column name="TYPE" type="VARCHAR(255)"/>
+            <column name="USER_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_7" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="FED_PROVIDERS">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USERFEDERATIONPROVIDERS_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_8" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="KEYCLOAK_ROLE">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_A"/>
+            </column>
+            <column name="APP_REALM_CONSTRAINT" type="VARCHAR(36)"/>
+            <column name="APPLICATION_ROLE" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="REALM_ID" type="VARCHAR(255)"/>
+            <column name="APPLICATION" type="VARCHAR(36)"/>
+            <column name="REALM" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_9" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REALM">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_4A"/>
+            </column>
+            <column name="ACCESS_CODE_LIFESPAN" type="INT"/>
+            <column name="USER_ACTION_LIFESPAN" type="INT"/>
+            <column name="ACCESS_TOKEN_LIFESPAN" type="INT"/>
+            <column name="ACCOUNT_THEME" type="VARCHAR(255)"/>
+            <column name="ADMIN_THEME" type="VARCHAR(255)"/>
+            <column name="EMAIL_THEME" type="VARCHAR(255)"/>
+            <column name="ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EVENTS_ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EVENTS_EXPIRATION" type="BIGINT"/>
+            <column name="LOGIN_THEME" type="VARCHAR(255)"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="NOT_BEFORE" type="INT"/>
+            <column name="PASSWORD_CRED_GRANT_ALLOWED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PASSWORD_POLICY" type="VARCHAR(255)"/>
+            <column name="PRIVATE_KEY" type="VARCHAR(2048)"/>
+            <column name="PUBLIC_KEY" type="VARCHAR(2048)"/>
+            <column name="REGISTRATION_ALLOWED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REMEMBER_ME" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RESET_PASSWORD_ALLOWED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SOCIAL" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SSL_REQUIRED" type="VARCHAR(255)"/>
+            <column name="SSO_IDLE_TIMEOUT" type="INT"/>
+            <column name="SSO_MAX_LIFESPAN" type="INT"/>
+            <column name="UPDATE_PROFILE_ON_SOC_LOGIN" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VERIFY_EMAIL" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MASTER_ADMIN_APP" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_10" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REALM_APPLICATION">
+            <column name="APPLICATION_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_11" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REALM_ATTRIBUTE">
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_9"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_9"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_12" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REALM_DEFAULT_ROLES">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_13" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REALM_EVENTS_LISTENERS">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_14" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REALM_REQUIRED_CREDENTIAL">
+            <column name="TYPE" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_92"/>
+            </column>
+            <column name="FORM_LABEL" type="VARCHAR(255)"/>
+            <column name="INPUT" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SECRET" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_92"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_15" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REALM_SMTP_CONFIG">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_E"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_E"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_16" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REALM_SOCIAL_CONFIG">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_1"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_1"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_17" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REDIRECT_URIS">
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_18" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="SCOPE_MAPPING">
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_81"/>
+            </column>
+            <column name="ROLE_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_81"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_19" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USERNAME_LOGIN_FAILURE">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_17"/>
+            </column>
+            <column name="USERNAME" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_17"/>
+            </column>
+            <column name="FAILED_LOGIN_NOT_BEFORE" type="INT"/>
+            <column name="LAST_FAILURE" type="BIGINT"/>
+            <column name="LAST_IP_FAILURE" type="VARCHAR(255)"/>
+            <column name="NUM_FAILURES" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_20" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_ATTRIBUTE">
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_6"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+            <column name="USER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_6"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_21" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_ENTITY">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FB"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR(255)"/>
+            <column name="EMAIL_CONSTRAINT" type="VARCHAR(255)"/>
+            <column name="EMAIL_VERIFIED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FEDERATION_LINK" type="VARCHAR(255)"/>
+            <column name="FIRST_NAME" type="VARCHAR(255)"/>
+            <column name="LAST_NAME" type="VARCHAR(255)"/>
+            <column name="REALM_ID" type="VARCHAR(255)"/>
+            <column name="TOTP" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USERNAME" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_22" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_FEDERATION_CONFIG">
+            <column name="USER_FEDERATION_PROVIDER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_F9"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_F9"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_23" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_FEDERATION_PROVIDER">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_5C"/>
+            </column>
+            <column name="CHANGED_SYNC_PERIOD" type="INT"/>
+            <column name="DISPLAY_NAME" type="VARCHAR(255)"/>
+            <column name="FULL_SYNC_PERIOD" type="INT"/>
+            <column name="LAST_SYNC" type="INT"/>
+            <column name="PRIORITY" type="INT"/>
+            <column name="PROVIDER_NAME" type="VARCHAR(255)"/>
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_24" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_REQUIRED_ACTION">
+            <column name="ACTION" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_2"/>
+            </column>
+            <column name="USER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_2"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_25" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_ROLE_MAPPING">
+            <column name="ROLE_ID" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_C"/>
+            </column>
+            <column name="USER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_C"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_26" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_SESSION">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_57"/>
+            </column>
+            <column name="AUTH_METHOD" type="VARCHAR(255)"/>
+            <column name="IP_ADDRESS" type="VARCHAR(255)"/>
+            <column name="LAST_SESSION_REFRESH" type="INT"/>
+            <column name="LOGIN_USERNAME" type="VARCHAR(255)"/>
+            <column name="REALM_ID" type="VARCHAR(255)"/>
+            <column name="REMEMBER_ME" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STARTED" type="INT"/>
+            <column name="USER_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_27" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_SOCIAL_LINK">
+            <column name="SOCIAL_PROVIDER" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_3"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(255)"/>
+            <column name="SOCIAL_USER_ID" type="VARCHAR(255)"/>
+            <column name="SOCIAL_USERNAME" type="VARCHAR(255)"/>
+            <column name="USER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_3"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_28" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="WEB_ORIGINS">
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_29" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="ROLE_ID" constraintName="UK_8AELWNIBJI49AVXSRTUF6XJOW" tableName="APPLICATION_DEFAULT_ROLES"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_30" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="REALM_ID,NAME" constraintName="UK_B71CJLBENV945RB6GCON438AT" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_31" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="USERFEDERATIONPROVIDERS_ID" constraintName="UK_DCCIRJLIPU1478VQC89DID88C" tableName="FED_PROVIDERS"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_32" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="REALM_ID,EMAIL_CONSTRAINT" constraintName="UK_DYKN684SL8UP1CRFEI6ECKHD7" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_33" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="ROLE_ID" constraintName="UK_H4WPD7W4HSOOLNI3H0SW7BTJE" tableName="REALM_DEFAULT_ROLES"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_34" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="NAME,APP_REALM_CONSTRAINT" constraintName="UK_J3RWUVD56ONTGSUHOGM184WW2" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_35" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="REALM_ID" constraintName="UK_L5QGA3RFME47335JY8JXYXH3I" tableName="REALM_APPLICATION"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_36" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="NAME" constraintName="UK_ORVSDMLA56612EAEFIQ6WL5OI" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_sub_37" author="sthorger@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="REALM_ID,USERNAME" constraintName="UK_RU8TT6T700S9V50BU18WS5HA6" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_0" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT_SESSION_ROLE" indexName="FK_11B7SGQW18I532811V7O2DV76">
+            <column name="CLIENT_SESSION"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_1" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="REDIRECT_URIS" indexName="FK_1BURS8PB4OUJ97H5WUPPAHV9F">
+            <column name="CLIENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_2" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_FEDERATION_PROVIDER" indexName="FK_1FJ32F6PTOLW2QY60CD8N01E8">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_3" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_PROVIDERS" indexName="FK_213LYQ09FKXQ8K8NY8DY3737T">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_4" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_REQUIRED_CREDENTIAL" indexName="FK_5HG65LYBEVAVKQFKI3KPONH9V">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_5" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_ATTRIBUTE" indexName="FK_5HRM2VLF9QL5FU043KQEPOVBR">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_6" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_SOCIAL_LINK" indexName="FK_68CJYS5UWM55UY823Y75XG4OM">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_7" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_REQUIRED_ACTION" indexName="FK_6QJ3W1JW9CVAFHE19BWSIUVMD">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_8" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="KEYCLOAK_ROLE" indexName="FK_6VYQFE4CN4WLQ8R6KT5VDSJ5C">
+            <column name="REALM"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_9" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_SMTP_CONFIG" indexName="FK_70EJ8XDXGXD0B9HH6180IRR0O">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_10" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_APPLICATION" indexName="FK_71S3P0DIUXAWWQQSA528UBY2Q">
+            <column name="APPLICATION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_11" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="APPLICATION_DEFAULT_ROLES" indexName="FK_8AELWNIBJI49AVXSRTUF6XJOW">
+            <column name="ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_12" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_ATTRIBUTE" indexName="FK_8SHXD6L3E9ATQUKACXGPFFPTW">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_13" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="COMPOSITE_ROLE" indexName="FK_A63WVEKFTU8JO1PNJ81E7MCE2">
+            <column name="COMPOSITE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_14" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT_SESSION" indexName="FK_B4AO2VCVAT6UKAU74WBWTFQO1">
+            <column name="SESSION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_15" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_ROLE_MAPPING" indexName="FK_C4FQV34P1MBYLLOXANG7B1Q3L">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_16" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_PROVIDERS" indexName="FK_DCCIRJLIPU1478VQC89DID88C">
+            <column name="USERFEDERATIONPROVIDERS_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_17" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_DEFAULT_ROLES" indexName="FK_EVUDB1PPW84OXFAX2DRS03ICC">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_18" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="COMPOSITE_ROLE" indexName="FK_GR7THLLB9LU8Q4VQA4524JJY8">
+            <column name="CHILD_ROLE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_19" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_DEFAULT_ROLES" indexName="FK_H4WPD7W4HSOOLNI3H0SW7BTJE">
+            <column name="ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_20" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_EVENTS_LISTENERS" indexName="FK_H846O4H0W8EPX5NXEV9F5Y69J">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_21" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_APPLICATION" indexName="FK_L5QGA3RFME47335JY8JXYXH3I">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_22" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="WEB_ORIGINS" indexName="FK_LOJPHO213XCX4WNKOG82SSRFY">
+            <column name="CLIENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_23" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="APPLICATION_DEFAULT_ROLES" indexName="FK_MAYLTS7KLWQW2H8M2B5JOYTKY">
+            <column name="APPLICATION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_24" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="SCOPE_MAPPING" indexName="FK_OUSE064PLMLR732LXJCN1Q5F1">
+            <column name="CLIENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_25" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="SCOPE_MAPPING" indexName="FK_P3RH9GRKU11KQFRS4FLTT7RNQ">
+            <column name="ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_26" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT" indexName="FK_P56CTINXXB9GSK57FO49F9TAC">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_27" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="CREDENTIAL" indexName="FK_PFYR0GLASQYL0DEI3KL69R6V0">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_28" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="KEYCLOAK_ROLE" indexName="FK_PIMO5LE2C0RAL09FL8CM9WFW9">
+            <column name="APPLICATION"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_29" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM" indexName="FK_RSAF444KK6QRKMS7N56AIWQ5Y">
+            <column name="MASTER_ADMIN_APP"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_30" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_SOCIAL_CONFIG" indexName="FK_SV5I3C2TI7G0G922FGE683SOV">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_index_sub_31" author="sthorger@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_FEDERATION_CONFIG" indexName="FK_T13HPU1J94R2EBPEKR39X5EU5">
+            <column name="USER_FEDERATION_PROVIDER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_0" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_SESSION_ROLE" baseColumnNames="CLIENT_SESSION" constraintName="FK_11B7SGQW18I532811V7O2DV76" referencedTableName="CLIENT_SESSION" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_1" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REDIRECT_URIS" baseColumnNames="CLIENT_ID" constraintName="FK_1BURS8PB4OUJ97H5WUPPAHV9F" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_2" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_FEDERATION_PROVIDER" baseColumnNames="REALM_ID" constraintName="FK_1FJ32F6PTOLW2QY60CD8N01E8" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_3" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="FED_PROVIDERS" baseColumnNames="REALM_ID" constraintName="FK_213LYQ09FKXQ8K8NY8DY3737T" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_4" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_REQUIRED_CREDENTIAL" baseColumnNames="REALM_ID" constraintName="FK_5HG65LYBEVAVKQFKI3KPONH9V" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_5" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_ATTRIBUTE" baseColumnNames="USER_ID" constraintName="FK_5HRM2VLF9QL5FU043KQEPOVBR" referencedTableName="USER_ENTITY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_6" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_SOCIAL_LINK" baseColumnNames="USER_ID" constraintName="FK_68CJYS5UWM55UY823Y75XG4OM" referencedTableName="USER_ENTITY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_7" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_REQUIRED_ACTION" baseColumnNames="USER_ID" constraintName="FK_6QJ3W1JW9CVAFHE19BWSIUVMD" referencedTableName="USER_ENTITY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_8" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="KEYCLOAK_ROLE" baseColumnNames="REALM" constraintName="FK_6VYQFE4CN4WLQ8R6KT5VDSJ5C" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_9" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_SMTP_CONFIG" baseColumnNames="REALM_ID" constraintName="FK_70EJ8XDXGXD0B9HH6180IRR0O" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_10" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_APPLICATION" baseColumnNames="APPLICATION_ID" constraintName="FK_71S3P0DIUXAWWQQSA528UBY2Q" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_11" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="APPLICATION_DEFAULT_ROLES" baseColumnNames="ROLE_ID" constraintName="FK_8AELWNIBJI49AVXSRTUF6XJOW" referencedTableName="KEYCLOAK_ROLE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_12" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_ATTRIBUTE" baseColumnNames="REALM_ID" constraintName="FK_8SHXD6L3E9ATQUKACXGPFFPTW" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_13" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="COMPOSITE_ROLE" baseColumnNames="COMPOSITE" constraintName="FK_A63WVEKFTU8JO1PNJ81E7MCE2" referencedTableName="KEYCLOAK_ROLE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_14" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_SESSION" baseColumnNames="SESSION_ID" constraintName="FK_B4AO2VCVAT6UKAU74WBWTFQO1" referencedTableName="USER_SESSION" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_15" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_ROLE_MAPPING" baseColumnNames="USER_ID" constraintName="FK_C4FQV34P1MBYLLOXANG7B1Q3L" referencedTableName="USER_ENTITY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_16" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="FED_PROVIDERS" baseColumnNames="USERFEDERATIONPROVIDERS_ID" constraintName="FK_DCCIRJLIPU1478VQC89DID88C" referencedTableName="USER_FEDERATION_PROVIDER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_17" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_DEFAULT_ROLES" baseColumnNames="REALM_ID" constraintName="FK_EVUDB1PPW84OXFAX2DRS03ICC" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_18" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="COMPOSITE_ROLE" baseColumnNames="CHILD_ROLE" constraintName="FK_GR7THLLB9LU8Q4VQA4524JJY8" referencedTableName="KEYCLOAK_ROLE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_19" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_DEFAULT_ROLES" baseColumnNames="ROLE_ID" constraintName="FK_H4WPD7W4HSOOLNI3H0SW7BTJE" referencedTableName="KEYCLOAK_ROLE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_20" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_EVENTS_LISTENERS" baseColumnNames="REALM_ID" constraintName="FK_H846O4H0W8EPX5NXEV9F5Y69J" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_21" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_APPLICATION" baseColumnNames="REALM_ID" constraintName="FK_L5QGA3RFME47335JY8JXYXH3I" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_22" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="WEB_ORIGINS" baseColumnNames="CLIENT_ID" constraintName="FK_LOJPHO213XCX4WNKOG82SSRFY" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_23" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="APPLICATION_DEFAULT_ROLES" baseColumnNames="APPLICATION_ID" constraintName="FK_MAYLTS7KLWQW2H8M2B5JOYTKY" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_24" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="SCOPE_MAPPING" baseColumnNames="CLIENT_ID" constraintName="FK_OUSE064PLMLR732LXJCN1Q5F1" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_25" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="SCOPE_MAPPING" baseColumnNames="ROLE_ID" constraintName="FK_P3RH9GRKU11KQFRS4FLTT7RNQ" referencedTableName="KEYCLOAK_ROLE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_26" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT" baseColumnNames="REALM_ID" constraintName="FK_P56CTINXXB9GSK57FO49F9TAC" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_27" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CREDENTIAL" baseColumnNames="USER_ID" constraintName="FK_PFYR0GLASQYL0DEI3KL69R6V0" referencedTableName="USER_ENTITY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_28" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="KEYCLOAK_ROLE" baseColumnNames="APPLICATION" constraintName="FK_PIMO5LE2C0RAL09FL8CM9WFW9" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_29" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM" baseColumnNames="MASTER_ADMIN_APP" constraintName="FK_RSAF444KK6QRKMS7N56AIWQ5Y" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_30" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_SOCIAL_CONFIG" baseColumnNames="REALM_ID" constraintName="FK_SV5I3C2TI7G0G922FGE683SOV" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.0.0.Final_foreign_sub_31" author="sthorger@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_FEDERATION_CONFIG" baseColumnNames="USER_FEDERATION_PROVIDER_ID" constraintName="FK_T13HPU1J94R2EBPEKR39X5EU5" referencedTableName="USER_FEDERATION_PROVIDER" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

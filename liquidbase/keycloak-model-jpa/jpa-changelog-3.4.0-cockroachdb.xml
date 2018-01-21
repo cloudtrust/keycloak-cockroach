@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="3.4.0_sub_0a" author="hmlnarik@redhat.com">
+        <createTable tableName="REALM_DEFAULT_ROLES_2">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_REALM_DEFAULT_ROLES"/>
+            </column>
+            <column name="ROLE_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_REALM_DEFAULT_ROLES"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_0b" author="hmlnarik@redhat.com">
+        <sql>insert into REALM_DEFAULT_ROLES_2 (REALM_ID,ROLE_ID) select REALM_ID,ROLE_ID from REALM_DEFAULT_ROLES</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_0c" author="hmlnarik@redhat.com">
+        <dropTable tableName="REALM_DEFAULT_ROLES"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_0d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="REALM_DEFAULT_ROLES_2" newTableName="REALM_DEFAULT_ROLES"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_0e" author="sthorger@redhat.com">
+        <addUniqueConstraint columnNames="ROLE_ID" constraintName="UK_H4WPD7W4HSOOLNI3H0SW7BTJE" tableName="REALM_DEFAULT_ROLES"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_0f" author="sthorger@redhat.com">
+        <createIndex tableName="REALM_DEFAULT_ROLES" indexName="FK_EVUDB1PPW84OXFAX2DRS03ICC">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_0fbis" author="sthorger@redhat.com">
+        <createIndex tableName="REALM_DEFAULT_ROLES" indexName="IDX_REALM_DEF_ROLES_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_0g" author="sthorger@redhat.com">
+        <createIndex tableName="REALM_DEFAULT_ROLES" indexName="FK_H4WPD7W4HSOOLNI3H0SW7BTJE">
+            <column name="ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_0h" author="hmlnarik@redhat.com">
+        <addForeignKeyConstraint baseTableName="REALM_DEFAULT_ROLES" baseColumnNames="REALM_ID" constraintName="FK_EVUDB1PPW84OXFAX2DRS03ICC" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_0i" author="hmlnarik@redhat.com">
+        <addForeignKeyConstraint baseTableName="REALM_DEFAULT_ROLES" baseColumnNames="ROLE_ID" constraintName="FK_H4WPD7W4HSOOLNI3H0SW7BTJE" referencedTableName="KEYCLOAK_ROLE" referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="3.4.0_sub_1a" author="hmlnarik@redhat.com">
+        <createTable tableName="COMPOSITE_ROLE_2">
+            <column name="COMPOSITE" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_COMPOSITE_ROLE"/>
+            </column>
+            <column name="CHILD_ROLE" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_COMPOSITE_ROLE"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_1b" author="hmlnarik@redhat.com">
+        <sql>insert into COMPOSITE_ROLE_2 (COMPOSITE,CHILD_ROLE) select COMPOSITE,CHILD_ROLE from COMPOSITE_ROLE</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_1c" author="hmlnarik@redhat.com">
+        <dropTable tableName="COMPOSITE_ROLE"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_1d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="COMPOSITE_ROLE_2" newTableName="COMPOSITE_ROLE"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_1e" author="sthorger@redhat.com">
+        <createIndex tableName="COMPOSITE_ROLE" indexName="FK_A63WVEKFTU8JO1PNJ81E7MCE2">
+            <column name="COMPOSITE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_1f" author="sthorger@redhat.com">
+        <createIndex tableName="COMPOSITE_ROLE" indexName="FK_GR7THLLB9LU8Q4VQA4524JJY8">
+            <column name="CHILD_ROLE"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_1fbis" author="sthorger@redhat.com">
+        <createIndex tableName="COMPOSITE_ROLE" indexName="IDX_COMPOSITE">
+            <column name="COMPOSITE" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_1fsecond" author="sthorger@redhat.com">
+        <createIndex tableName="COMPOSITE_ROLE" indexName="IDX_COMPOSITE_CHILD">
+            <column name="CHILD_ROLE" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_1g" author="hmlnarik@redhat.com">
+        <addForeignKeyConstraint baseTableName="COMPOSITE_ROLE" baseColumnNames="COMPOSITE" constraintName="FK_A63WVEKFTU8JO1PNJ81E7MCE2" referencedTableName="KEYCLOAK_ROLE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_1h" author="hmlnarik@redhat.com">
+        <addForeignKeyConstraint baseTableName="COMPOSITE_ROLE" baseColumnNames="CHILD_ROLE" constraintName="FK_GR7THLLB9LU8Q4VQA4524JJY8" referencedTableName="KEYCLOAK_ROLE" referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="3.4.0_sub_2a" author="keycloak">
+        <createTable tableName="REALM_DEFAULT_GROUPS_2">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_REALM_DEFAULT_GROUPS"/>
+            </column>
+            <column name="GROUP_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_REALM_DEFAULT_GROUPS"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_2b" author="hmlnarik@redhat.com">
+        <sql>insert into REALM_DEFAULT_GROUPS_2 (REALM_ID,GROUP_ID) select REALM_ID,GROUP_ID from REALM_DEFAULT_GROUPS</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_2c" author="hmlnarik@redhat.com">
+        <dropTable tableName="REALM_DEFAULT_GROUPS"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_2d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="REALM_DEFAULT_GROUPS_2" newTableName="REALM_DEFAULT_GROUPS"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_2e" author="keycloak">
+        <createIndex tableName="REALM_DEFAULT_GROUPS" indexName="FK_DEF_GROUPS_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_2f" author="keycloak">
+        <createIndex tableName="REALM_DEFAULT_GROUPS" indexName="FK_DEF_GROUPS_GROUP">
+            <column name="GROUP_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_2g" author="keycloak">
+        <createIndex tableName="REALM_DEFAULT_GROUPS" indexName="IDX_REALM_DEF_GRP_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_2h" author="keycloak">
+        <addUniqueConstraint columnNames="GROUP_ID" constraintName="CON_GROUP_ID_DEF_GROUPS" tableName="REALM_DEFAULT_GROUPS"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_2i" author="keycloak">
+        <addForeignKeyConstraint baseTableName="REALM_DEFAULT_GROUPS" baseColumnNames="REALM_ID" constraintName="FK_DEF_GROUPS_REALM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_2j" author="keycloak">
+        <addForeignKeyConstraint baseTableName="REALM_DEFAULT_GROUPS" baseColumnNames="GROUP_ID" constraintName="FK_DEF_GROUPS_GROUP" referencedTableName="KEYCLOAK_GROUP" referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="3.4.0_sub_3a" author="keycloak">
+        <createTable tableName="CLIENT_IDENTITY_PROV_MAPPING_2">
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_CLIENT_IDEN_PROV_MAP"/>
+            </column>
+            <column name="IDENTITY_PROVIDER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_CLIENT_IDEN_PROV_MAP"/>
+            </column>
+            <column name="RETRIEVE_TOKEN" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_3b" author="hmlnarik@redhat.com">
+        <sql>insert into CLIENT_IDENTITY_PROV_MAPPING_2 (CLIENT_ID,IDENTITY_PROVIDER_ID,RETRIEVE_TOKEN) select CLIENT_ID,IDENTITY_PROVIDER_ID,RETRIEVE_TOKEN from CLIENT_IDENTITY_PROV_MAPPING</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_3c" author="hmlnarik@redhat.com">
+        <dropTable tableName="CLIENT_IDENTITY_PROV_MAPPING"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_3d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="CLIENT_IDENTITY_PROV_MAPPING_2" newTableName="CLIENT_IDENTITY_PROV_MAPPING"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_3e" author="keycloak">
+        <createIndex tableName="CLIENT_IDENTITY_PROV_MAPPING" indexName="IDX_CLIENT_ID_PROV_MAP_CLIENT">
+            <column name="CLIENT_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_3f" author="keycloak">
+        <createIndex tableName="CLIENT_IDENTITY_PROV_MAPPING" indexName="FK_7CELWNIBJI49AVXSRTUF6XJ12">
+            <column name="IDENTITY_PROVIDER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_3g" author="keycloak">
+        <createIndex tableName="CLIENT_IDENTITY_PROV_MAPPING" indexName="FK_56ELWNIBJI49AVXSRTUF6XJ23">
+            <column name="CLIENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_3h" author="keycloak">
+        <addUniqueConstraint columnNames="IDENTITY_PROVIDER_ID,CLIENT_ID" constraintName="UK_7CAELWNIBJI49AVXSRTUF6XJ12" tableName="CLIENT_IDENTITY_PROV_MAPPING"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_3i" author="keycloak">
+        <addForeignKeyConstraint baseTableName="CLIENT_IDENTITY_PROV_MAPPING" baseColumnNames="IDENTITY_PROVIDER_ID" constraintName="FK_7CELWNIBJI49AVXSRTUF6XJ12" referencedTableName="IDENTITY_PROVIDER" referencedColumnNames="INTERNAL_ID"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_3j" author="keycloak">
+        <addForeignKeyConstraint baseTableName="CLIENT_IDENTITY_PROV_MAPPING" baseColumnNames="CLIENT_ID" constraintName="FK_56ELWNIBJI49AVXSRTUF6XJ23" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="3.4.0_sub_4a" author="keycloak">
+        <createTable tableName="ADMIN_EVENT_ENTITY_2">
+        <column name="ID" type="VARCHAR(36)">
+            <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_ADMIN_EVENT_ENTITY"/>
+        </column>
+        <column name="ADMIN_EVENT_TIME" type="BIGINT"/>
+        <column name="REALM_ID" type="VARCHAR(255)"/>
+        <column name="OPERATION_TYPE" type="VARCHAR(255)"/>
+        <column name="AUTH_REALM_ID" type="VARCHAR(255)"/>
+        <column name="AUTH_CLIENT_ID" type="VARCHAR(255)"/>
+        <column name="AUTH_USER_ID" type="VARCHAR(255)"/>
+        <column name="IP_ADDRESS" type="VARCHAR(255)"/>
+        <column name="RESOURCE_PATH" type="VARCHAR(2550)"/>
+        <column name="REPRESENTATION" type="TEXT(25500)"/>
+        <column name="ERROR" type="VARCHAR(255)"/>
+        <column name="RESOURCE_TYPE" type="VARCHAR(64)"/>
+    </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_4b" author="hmlnarik@redhat.com">
+        <sql>insert into ADMIN_EVENT_ENTITY_2 (ID,ADMIN_EVENT_TIME,REALM_ID,OPERATION_TYPE,AUTH_REALM_ID,AUTH_CLIENT_ID,AUTH_USER_ID,IP_ADDRESS,RESOURCE_PATH,REPRESENTATION,ERROR,RESOURCE_TYPE) select ID,ADMIN_EVENT_TIME,REALM_ID,OPERATION_TYPE,AUTH_REALM_ID,AUTH_CLIENT_ID,AUTH_USER_ID,IP_ADDRESS,RESOURCE_PATH,REPRESENTATION,ERROR,RESOURCE_TYPE from ADMIN_EVENT_ENTITY</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_4c" author="hmlnarik@redhat.com">
+        <dropTable tableName="ADMIN_EVENT_ENTITY"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_4d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="ADMIN_EVENT_ENTITY_2" newTableName="ADMIN_EVENT_ENTITY"/>
+    </changeSet>
+
+    <changeSet id="3.4.0_sub_5a" author="keycloak">
+        <createTable tableName="CREDENTIAL_ATTRIBUTE_2">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_CREDENTIAL_ATTR"/>
+            </column>
+            <column name="CREDENTIAL_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(4000)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_5b" author="hmlnarik@redhat.com">
+        <sql>insert into CREDENTIAL_ATTRIBUTE_2 (ID,CREDENTIAL_ID,NAME,VALUE) select ID,CREDENTIAL_ID,NAME,VALUE from CREDENTIAL_ATTRIBUTE_2</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_5c" author="hmlnarik@redhat.com">
+        <dropTable tableName="CREDENTIAL_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_5d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="CREDENTIAL_ATTRIBUTE_2" newTableName="CREDENTIAL_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_5e" author="keycloak">
+        <createIndex tableName="CREDENTIAL_ATTRIBUTE" indexName="FK_CRED_ATTR">
+            <column name="CREDENTIAL_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_5f" author="keycloak">
+        <createIndex tableName="CREDENTIAL_ATTRIBUTE" indexName="IDX_CREDENTIAL_ATTR_CRED">
+            <column name="CREDENTIAL_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_5g" author="keycloak">
+        <addForeignKeyConstraint baseTableName="CREDENTIAL_ATTRIBUTE" baseColumnNames="CREDENTIAL_ID" constraintName="FK_CRED_ATTR" referencedTableName="CREDENTIAL" referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="3.4.0_sub_6a" author="keycloak">
+        <createTable tableName="FED_CREDENTIAL_ATTRIBUTE_2">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FED_CREDENTIAL_ATTR"/>
+            </column>
+            <column name="CREDENTIAL_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(4000)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_6b" author="hmlnarik@redhat.com">
+        <sql>insert into FED_CREDENTIAL_ATTRIBUTE_2 (ID,CREDENTIAL_ID,NAME,VALUE) select ID,CREDENTIAL_ID,NAME,VALUE from FED_CREDENTIAL_ATTRIBUTE</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_6c" author="hmlnarik@redhat.com">
+        <dropTable tableName="FED_CREDENTIAL_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_6d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="FED_CREDENTIAL_ATTRIBUTE_2" newTableName="FED_CREDENTIAL_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_6e" author="keycloak">
+        <createIndex tableName="FED_CREDENTIAL_ATTRIBUTE" indexName="FK_FED_CRED_ATTR">
+            <column name="CREDENTIAL_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_6ebis" author="bburke@redhat.com">
+        <addForeignKeyConstraint baseTableName="FED_CREDENTIAL_ATTRIBUTE" baseColumnNames="CREDENTIAL_ID" constraintName="FK_FED_CRED_ATTR" referencedTableName="FED_USER_CREDENTIAL" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_6f" author="keycloak">
+        <createIndex tableName="FED_CREDENTIAL_ATTRIBUTE" indexName="IDX_FED_CRED_ATTR_CRED">
+            <column name="CREDENTIAL_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="3.4.0_sub_7a" author="keycloak">
+        <createTable tableName="CLIENT_DEFAULT_ROLES_2">
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_CLIENT_DEFAULT_ROLES"/>
+            </column>
+            <column name="ROLE_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_CLIENT_DEFAULT_ROLES"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_7b" author="hmlnarik@redhat.com">
+        <sql>insert into CLIENT_DEFAULT_ROLES_2 (CLIENT_ID,ROLE_ID) select CLIENT_ID,ROLE_ID from CLIENT_DEFAULT_ROLES</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_7c" author="hmlnarik@redhat.com">
+        <dropTable tableName="CLIENT_DEFAULT_ROLES"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_7d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="CLIENT_DEFAULT_ROLES_2" newTableName="CLIENT_DEFAULT_ROLES"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_7e" author="keycloak">
+        <createIndex tableName="CLIENT_DEFAULT_ROLES" indexName="FK_8AELWNIBJI49AVXSRTUF6XJOW">
+            <column name="ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_7f" author="keycloak">
+        <createIndex tableName="CLIENT_DEFAULT_ROLES" indexName="IDX_CLIENT_DEF_ROLES_CLIENT">
+            <column name="CLIENT_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_7g" author="keycloak">
+        <addUniqueConstraint columnNames="ROLE_ID" constraintName="UK_8AELWNIBJI49AVXSRTUF6XJOW" tableName="CLIENT_DEFAULT_ROLES"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_7h" author="keycloak">
+        <addForeignKeyConstraint baseTableName="CLIENT_DEFAULT_ROLES" baseColumnNames="ROLE_ID" constraintName="FK_8AELWNIBJI49AVXSRTUF6XJOW" referencedTableName="KEYCLOAK_ROLE" referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="3.4.0_sub_10a" author="keycloak">
+        <createTable tableName="REALM_ENABLED_EVENT_TYPES_2">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="REALM_ENABLED_EVENT_TYPES"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="REALM_ENABLED_EVENT_TYPES"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_10b" author="hmlnarik@redhat.com">
+        <sql>insert into REALM_ENABLED_EVENT_TYPES_2 (REALM_ID,VALUE) select REALM_ID,VALUE from REALM_ENABLED_EVENT_TYPES</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_10c" author="hmlnarik@redhat.com">
+        <dropTable tableName="REALM_ENABLED_EVENT_TYPES"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_10d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="REALM_ENABLED_EVENT_TYPES_2" newTableName="REALM_ENABLED_EVENT_TYPES"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_10e" author="keycloak">
+        <createIndex tableName="REALM_ENABLED_EVENT_TYPES" indexName="FK_H846O4H0W8EPX5NWEDRF5Y69J">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_10f" author="keycloak">
+        <createIndex tableName="REALM_ENABLED_EVENT_TYPES" indexName="IDX_REALM_EVT_TYPES_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_10g" author="keycloak">
+        <addForeignKeyConstraint baseTableName="REALM_ENABLED_EVENT_TYPES" baseColumnNames="REALM_ID" constraintName="FK_H846O4H0W8EPX5NWEDRF5Y69J" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="3.4.0_sub_11a" author="keycloak">
+        <createTable tableName="REALM_EVENTS_LISTENERS_2">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_REALM_EVENTS_LISTENERS"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_REALM_EVENTS_LISTENERS"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_11b" author="hmlnarik@redhat.com">
+        <sql>insert into REALM_EVENTS_LISTENERS_2 (REALM_ID,VALUE) select REALM_ID,VALUE from REALM_EVENTS_LISTENERS</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_11c" author="hmlnarik@redhat.com">
+        <dropTable tableName="REALM_EVENTS_LISTENERS"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_11d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="REALM_EVENTS_LISTENERS_2" newTableName="REALM_EVENTS_LISTENERS"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_11e" author="keycloak">
+        <createIndex tableName="REALM_EVENTS_LISTENERS" indexName="FK_H846O4H0W8EPX5NXEV9F5Y69J">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_11f" author="keycloak">
+        <createIndex tableName="REALM_EVENTS_LISTENERS" indexName="IDX_REALM_EVT_LIST_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_11g" author="keycloak">
+        <addForeignKeyConstraint baseTableName="REALM_EVENTS_LISTENERS" baseColumnNames="REALM_ID" constraintName="FK_H846O4H0W8EPX5NXEV9F5Y69J" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="3.4.0_sub_13a" author="keycloak">
+        <createTable tableName="REALM_SUPPORTED_LOCALES_2">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_REALM_SUPPORTED_LOCALES"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_REALM_SUPPORTED_LOCALES"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_13b" author="hmlnarik@redhat.com">
+        <sql>insert into REALM_SUPPORTED_LOCALES_2 (REALM_ID,VALUE) select REALM_ID,VALUE from REALM_SUPPORTED_LOCALES</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_13c" author="hmlnarik@redhat.com">
+        <dropTable tableName="REALM_SUPPORTED_LOCALES"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_13d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="REALM_SUPPORTED_LOCALES_2" newTableName="REALM_SUPPORTED_LOCALES"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_13e" author="keycloak">
+        <createIndex tableName="REALM_SUPPORTED_LOCALES" indexName="FK_SUPPORTED_LOCALES_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_13f" author="keycloak">
+        <createIndex tableName="REALM_SUPPORTED_LOCALES" indexName="IDX_REALM_SUPP_LOCAL_REALM">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_13g" author="keycloak">
+        <addForeignKeyConstraint baseTableName="REALM_SUPPORTED_LOCALES" baseColumnNames="REALM_ID" constraintName="FK_SUPPORTED_LOCALES_REALM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="3.4.0_sub_15a" author="keycloak">
+        <createTable tableName="REDIRECT_URIS_2">
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_REDIRECT_URIS"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_REDIRECT_URIS"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_15b" author="hmlnarik@redhat.com">
+        <sql>insert into REDIRECT_URIS_2 (CLIENT_ID,VALUE) select CLIENT_ID,VALUE from REDIRECT_URIS</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_15c" author="hmlnarik@redhat.com">
+        <dropTable tableName="REDIRECT_URIS"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_15d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="REDIRECT_URIS_2" newTableName="REDIRECT_URIS"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_15e" author="keycloak">
+        <createIndex tableName="REDIRECT_URIS" indexName="FK_1BURS8PB4OUJ97H5WUPPAHV9F">
+            <column name="CLIENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_15f" author="keycloak">
+        <createIndex tableName="REDIRECT_URIS" indexName="IDX_REDIR_URI_CLIENT">
+            <column name="CLIENT_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_15g" author="keycloak">
+        <addForeignKeyConstraint baseTableName="REDIRECT_URIS" baseColumnNames="CLIENT_ID" constraintName="FK_1BURS8PB4OUJ97H5WUPPAHV9F" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="3.4.0_sub_17a" author="keycloak">
+        <createTable tableName="WEB_ORIGINS_2">
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_WEB_ORIGINS"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_WEB_ORIGINS"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3.4.0_sub_17b" author="hmlnarik@redhat.com">
+        <sql>insert into WEB_ORIGINS_2 (CLIENT_ID,VALUE) select CLIENT_ID,VALUE from WEB_ORIGINS</sql>
+    </changeSet>
+    <changeSet id="3.4.0_sub_17c" author="hmlnarik@redhat.com">
+        <dropTable tableName="WEB_ORIGINS"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_17d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="WEB_ORIGINS_2" newTableName="WEB_ORIGINS"/>
+    </changeSet>
+    <changeSet id="3.4.0_sub_17e" author="keycloak">
+        <createIndex tableName="WEB_ORIGINS" indexName="FK_LOJPHO213XCX4WNKOG82SSRFY">
+            <column name="CLIENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_17f" author="keycloak">
+        <createIndex tableName="WEB_ORIGINS" indexName="IDX_WEB_ORIG_CLIENT">
+            <column name="CLIENT_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_sub_17g" author="keycloak">
+        <addForeignKeyConstraint baseTableName="WEB_ORIGINS" baseColumnNames="CLIENT_ID" constraintName="FK_LOJPHO213XCX4WNKOG82SSRFY" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+
+    <changeSet id="3.4.0-KEYCLOAK-5230_sub_0" author="hmlnarik@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_USER_ATTRIBUTE" indexName="IDX_FU_ATTRIBUTE">
+            <column name="USER_ID" type="VARCHAR(255)"/>
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0-KEYCLOAK-5230_sub_1" author="hmlnarik@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_USER_CONSENT" indexName="IDX_FU_CONSENT">
+            <column name="USER_ID" type="VARCHAR(255)"/>
+            <column name="CLIENT_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0-KEYCLOAK-5230_sub_2" author="hmlnarik@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_USER_CONSENT" indexName="IDX_FU_CONSENT_RU">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+            <column name="USER_ID" type="VARCHAR(255)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0-KEYCLOAK-5230_sub_3" author="hmlnarik@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_USER_CREDENTIAL" indexName="IDX_FU_CREDENTIAL">
+            <column name="USER_ID" type="VARCHAR(255)"/>
+            <column name="TYPE" type="VARCHAR(255)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0-KEYCLOAK-5230_sub_4" author="hmlnarik@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_USER_CREDENTIAL" indexName="IDX_FU_CREDENTIAL_RU">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+            <column name="USER_ID" type="VARCHAR(255)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0-KEYCLOAK-5230_sub_5" author="hmlnarik@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_USER_GROUP_MEMBERSHIP" indexName="IDX_FU_GROUP_MEMBERSHIP">
+            <column name="USER_ID" type="VARCHAR(255)"/>
+            <column name="GROUP_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0-KEYCLOAK-5230_sub_6" author="hmlnarik@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_USER_GROUP_MEMBERSHIP" indexName="IDX_FU_GROUP_MEMBERSHIP_RU">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+            <column name="USER_ID" type="VARCHAR(255)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0-KEYCLOAK-5230_sub_7" author="hmlnarik@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_USER_REQUIRED_ACTION" indexName="IDX_FU_REQUIRED_ACTION">
+            <column name="USER_ID" type="VARCHAR(255)"/>
+            <column name="REQUIRED_ACTION" type="VARCHAR(255)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0-KEYCLOAK-5230_sub_8" author="hmlnarik@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_USER_REQUIRED_ACTION" indexName="IDX_FU_REQUIRED_ACTION_RU">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+            <column name="USER_ID" type="VARCHAR(255)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0-KEYCLOAK-5230_sub_9" author="hmlnarik@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_USER_ROLE_MAPPING" indexName="IDX_FU_ROLE_MAPPING">
+            <column name="USER_ID" type="VARCHAR(255)"/>
+            <column name="ROLE_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0-KEYCLOAK-5230_sub_10" author="hmlnarik@redhat.com" runInTransaction="true">
+        <createIndex tableName="FED_USER_ROLE_MAPPING" indexName="IDX_FU_ROLE_MAPPING_RU">
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+            <column name="USER_ID" type="VARCHAR(255)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_index_sub_0" author="keycloak" runInTransaction="true">
+        <createIndex tableName="CLIENT_DEFAULT_ROLES" indexName="FK_NUILTS7KLWQW2H8M2B5JOYTKY">
+            <column name="CLIENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="3.4.0_foreign_sub_0" author="keycloak" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_DEFAULT_ROLES" baseColumnNames="CLIENT_ID" constraintName="FK_NUILTS7KLWQW2H8M2B5JOYTKY" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

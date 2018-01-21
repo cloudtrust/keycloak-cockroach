@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="1.8.0_sub_0" author="mposolda@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="IDENTITY_PROVIDER">
+            <column name="POST_BROKER_LOGIN_FLOW_ID" type="VARCHAR(36)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.8.0_sub_1" author="mposolda@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CLIENT_TEMPLATE">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_CLI_TEMPLATE"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="PROTOCOL" type="VARCHAR(255)"/>
+            <column name="FULL_SCOPE_ALLOWED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CONSENT_REQUIRED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STANDARD_FLOW_ENABLED" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IMPLICIT_FLOW_ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DIRECT_ACCESS_GRANTS_ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SERVICE_ACCOUNTS_ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FRONTCHANNEL_LOGOUT" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BEARER_ONLY" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PUBLIC_CLIENT" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.8.0_sub_2" author="mposolda@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CLIENT_TEMPLATE_ATTRIBUTES">
+            <column name="TEMPLATE_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_CL_TMPL_ATTR"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(2048)"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_CL_TMPL_ATTR"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.8.0_sub_3" author="mposolda@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="TEMPLATE_SCOPE_MAPPING">
+            <column name="TEMPLATE_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_TEMPLATE_SCOPE"/>
+            </column>
+            <column name="ROLE_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_TEMPLATE_SCOPE"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.8.0_sub_4" author="mposolda@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropNotNullConstraint tableName="PROTOCOL_MAPPER" columnName="CLIENT_ID" columnDataType="VARCHAR(36)"/>
+    </changeSet>
+    <changeSet id="1.8.0_sub_5" author="mposolda@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="CLIENT">
+            <column name="CLIENT_TEMPLATE_ID" type="VARCHAR(36)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="USE_TEMPLATE_CONFIG" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USE_TEMPLATE_SCOPE" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USE_TEMPLATE_MAPPERS" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.8.0_sub_6" author="mposolda@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="PROTOCOL_MAPPER">
+            <column name="CLIENT_TEMPLATE_ID" type="VARCHAR(36)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.8.0_sub_7" author="mposolda@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REALM_CLIENT_TEMPLATE">
+            <column name="CLIENT_TEMPLATE_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.8.0_sub_8" author="mposolda@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="REALM_ID,NAME" constraintName="UK_CLI_TEMPLATE" tableName="CLIENT_TEMPLATE"/>
+    </changeSet>
+    <changeSet id="1.8.0_sub_9" author="mposolda@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CREDENTIAL">
+            <column name="ALGORITHM" type="VARCHAR(36)" value="pbkdf2"/>
+            <where>TYPE in ('password-history', 'password') AND ALGORITHM is NULL</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.8.0-2_sub_0" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropDefaultValue columnName="ALGORITHM" columnDataType="VARCHAR(36)" tableName="CREDENTIAL"/>
+    </changeSet>
+    <changeSet id="1.8.0-2_sub_1" author="keycloak" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CREDENTIAL">
+            <column name="ALGORITHM" type="VARCHAR(36)" value="pbkdf2"/>
+            <where>TYPE in ('password-history', 'password') AND ALGORITHM = 'HmacSHA1'</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.8.0_index_sub_0" author="mposolda@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT_TEMPLATE" indexName="FK_REALM_CLI_TMPLT">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.8.0_index_sub_1" author="mposolda@redhat.com" runInTransaction="true">
+        <createIndex tableName="PROTOCOL_MAPPER" indexName="FK_CLI_TMPLT_MAPPER">
+            <column name="CLIENT_TEMPLATE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.8.0_index_sub_2" author="mposolda@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT" indexName="FK_CLI_TMPLT_CLIENT">
+            <column name="CLIENT_TEMPLATE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.8.0_index_sub_3" author="mposolda@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_CLIENT_TEMPLATE" indexName="FK_RLM_CLI_TMPLT_RLM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.8.0_index_sub_4" author="mposolda@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_CLIENT_TEMPLATE" indexName="FK_RLM_CLI_TMPLT_CLI">
+            <column name="CLIENT_TEMPLATE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.8.0_index_sub_5" author="mposolda@redhat.com" runInTransaction="true">
+        <createIndex tableName="TEMPLATE_SCOPE_MAPPING" indexName="FK_TEMPL_SCOPE_TEMPL">
+            <column name="TEMPLATE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.8.0_index_sub_6" author="mposolda@redhat.com" runInTransaction="true">
+        <createIndex tableName="TEMPLATE_SCOPE_MAPPING" indexName="FK_TEMPL_SCOPE_ROLE">
+            <column name="ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.8.0_index_sub_7" author="mposolda@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT_TEMPLATE_ATTRIBUTES" indexName="FK_CL_TEMPL_ATTR_TEMPL">
+            <column name="TEMPLATE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.8.0_foreign_sub_0" author="mposolda@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_TEMPLATE" baseColumnNames="REALM_ID" constraintName="FK_REALM_CLI_TMPLT" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.8.0_foreign_sub_1" author="mposolda@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="PROTOCOL_MAPPER" baseColumnNames="CLIENT_TEMPLATE_ID" constraintName="FK_CLI_TMPLT_MAPPER" referencedTableName="CLIENT_TEMPLATE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.8.0_foreign_sub_2" author="mposolda@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT" baseColumnNames="CLIENT_TEMPLATE_ID" constraintName="FK_CLI_TMPLT_CLIENT" referencedTableName="CLIENT_TEMPLATE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.8.0_foreign_sub_3" author="mposolda@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_CLIENT_TEMPLATE" baseColumnNames="REALM_ID" constraintName="FK_RLM_CLI_TMPLT_RLM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.8.0_foreign_sub_4" author="mposolda@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_CLIENT_TEMPLATE" baseColumnNames="CLIENT_TEMPLATE_ID" constraintName="FK_RLM_CLI_TMPLT_CLI" referencedTableName="CLIENT_TEMPLATE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.8.0_foreign_sub_5" author="mposolda@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="TEMPLATE_SCOPE_MAPPING" baseColumnNames="TEMPLATE_ID" constraintName="FK_TEMPL_SCOPE_TEMPL" referencedTableName="CLIENT_TEMPLATE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.8.0_foreign_sub_6" author="mposolda@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="TEMPLATE_SCOPE_MAPPING" baseColumnNames="ROLE_ID" constraintName="FK_TEMPL_SCOPE_ROLE" referencedTableName="KEYCLOAK_ROLE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.8.0_foreign_sub_7" author="mposolda@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_TEMPLATE_ATTRIBUTES" baseColumnNames="TEMPLATE_ID" constraintName="FK_CL_TEMPL_ATTR_TEMPL" referencedTableName="CLIENT_TEMPLATE" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

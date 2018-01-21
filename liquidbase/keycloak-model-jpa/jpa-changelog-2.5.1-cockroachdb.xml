@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="2.5.1_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="FED_USER_CONSENT">
+            <column name="CREATED_DATE" type="BIGINT"/>
+            <column name="LAST_UPDATED_DATE" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

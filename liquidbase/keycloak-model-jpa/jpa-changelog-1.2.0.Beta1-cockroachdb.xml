@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="1.2.0.Beta1_sub_0" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="CLIENT_SESSION_ROLE"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_1" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="CLIENT_SESSION_NOTE"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_2" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="CLIENT_SESSION"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_3" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="USER_SESSION"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_4" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="PROTOCOL_MAPPER">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_PCM"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROTOCOL" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROTOCOL_MAPPER_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CONSENT_REQUIRED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CONSENT_TEXT" type="VARCHAR(255)"/>
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_5" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="PROTOCOL_MAPPER_CONFIG">
+            <column name="PROTOCOL_MAPPER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_PMConfig"/>
+            </column>
+            <column name="VALUE" type="CLOB"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_PMConfig"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_6" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="FEDERATED_IDENTITY">
+            <column name="IDENTITY_PROVIDER" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_40"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+            <column name="FEDERATED_USER_ID" type="VARCHAR(255)"/>
+            <column name="FEDERATED_USERNAME" type="VARCHAR(255)"/>
+            <column name="TOKEN" type="TEXT"/>
+            <column name="USER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_40"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_7" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="IDENTITY_PROVIDER">
+            <column name="INTERNAL_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_2B"/>
+            </column>
+            <column name="ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROVIDER_ALIAS" type="VARCHAR(255)"/>
+            <column name="PROVIDER_ID" type="VARCHAR(255)"/>
+            <column name="UPDATE_PROFILE_FIRST_LOGIN" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STORE_TOKEN" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AUTHENTICATE_BY_DEFAULT" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_8" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="IDENTITY_PROVIDER_CONFIG">
+            <column name="IDENTITY_PROVIDER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_D"/>
+            </column>
+            <column name="VALUE" type="CLOB"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_D"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_9" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CLIENT_IDENTITY_PROV_MAPPING">
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IDENTITY_PROVIDER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RETRIEVE_TOKEN" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_10" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REALM_SUPPORTED_LOCALES">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_11" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_SESSION_NOTE">
+            <column name="USER_SESSION" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_USN_PK"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_USN_PK"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(2048)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_12" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="CLIENT">
+            <column name="FRONTCHANNEL_LOGOUT" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_13" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="USER_SESSION">
+            <column name="USER_SESSION_STATE" type="INT"/>
+            <column name="BROKER_SESSION_ID" type="VARCHAR(255)"/>
+            <column name="BROKER_USER_ID" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_14" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="PROVIDER_ALIAS, REALM_ID" constraintName="UK_2DAELWNIBJI49AVXSRTUF6XJ33" tableName="IDENTITY_PROVIDER"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_15" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="IDENTITY_PROVIDER_ID,CLIENT_ID" constraintName="UK_7CAELWNIBJI49AVXSRTUF6XJ12" tableName="CLIENT_IDENTITY_PROV_MAPPING"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_16" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="REALM">
+            <column name="LOGIN_LIFESPAN" type="INT"/>
+            <column name="INTERNATIONALIZATION_ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DEFAULT_LOCALE" type="VARCHAR(255)"/>
+            <column name="REG_EMAIL_AS_USERNAME" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_17" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropForeignKeyConstraint baseTableName="REALM_APPLICATION" constraintName="FK_71S3P0DIUXAWWQQSA528UBY2Q"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_18" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropForeignKeyConstraint baseTableName="REALM_APPLICATION" constraintName="FK_L5QGA3RFME47335JY8JXYXH3I"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_19" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropIndex indexName="UK_L5QGA3RFME47335JY8JXYXH3I" tableName="REALM_APPLICATION"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_20" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="APPLICATION_ID" newColumnName="APPLICATION_ID_TMP" columnDataType="VARCHAR(36)" tableName="REALM_APPLICATION"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_21" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="REALM_ID" newColumnName="APPLICATION_ID" columnDataType="VARCHAR(36)" tableName="REALM_APPLICATION"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_22" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="APPLICATION_ID_TMP" newColumnName="REALM_ID" columnDataType="VARCHAR(36)" tableName="REALM_APPLICATION"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_23" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="APPLICATION_ID" constraintName="UK_M6QGA3RFME47335JY8JXYXH3I" tableName="REALM_APPLICATION"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_24" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <customChange class="org.keycloak.connections.jpa.updater.liquibase.custom.JpaUpdate1_2_0_Beta1"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_25" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropForeignKeyConstraint baseTableName="USER_SOCIAL_LINK" constraintName="FK_68CJYS5UWM55UY823Y75XG4OM"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_26" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropTable cascadeConstraints="true" tableName="USER_SOCIAL_LINK"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_27" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropForeignKeyConstraint baseTableName="REALM_SOCIAL_CONFIG" constraintName="FK_SV5I3C2TI7G0G922FGE683SOV"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_28" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropTable cascadeConstraints="true" tableName="REALM_SOCIAL_CONFIG"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_29" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="ALLOWED_CLAIMS_MASK" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_sub_30" author="psilva@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REALM_ENABLED_EVENT_TYPES">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_index_sub_0" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="IDENTITY_PROVIDER" indexName="FK2B4EBC52AE5C3B34">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_index_sub_1" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="PROTOCOL_MAPPER" indexName="FK_PCM_REALM">
+            <column name="CLIENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_index_sub_2" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="FEDERATED_IDENTITY" indexName="FK404288B92EF007A6">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_index_sub_3" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="IDENTITY_PROVIDER_CONFIG" indexName="FKDC4897CF864C4E43">
+            <column name="IDENTITY_PROVIDER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_index_sub_4" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="PROTOCOL_MAPPER_CONFIG" indexName="FK_PMConfig">
+            <column name="PROTOCOL_MAPPER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_index_sub_5" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT_IDENTITY_PROV_MAPPING" indexName="FK_7CELWNIBJI49AVXSRTUF6XJ12">
+            <column name="IDENTITY_PROVIDER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_index_sub_6" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT_IDENTITY_PROV_MAPPING" indexName="FK_56ELWNIBJI49AVXSRTUF6XJ23">
+            <column name="CLIENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_index_sub_7" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_SUPPORTED_LOCALES" indexName="FK_SUPPORTED_LOCALES_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_index_sub_8" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_SESSION_NOTE" indexName="FK5EDFB00FF51D3472">
+            <column name="USER_SESSION"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_index_sub_9" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_APPLICATION" indexName="FK_82S3P0DIUXAWWQQSA528UBY2Q">
+            <column name="APPLICATION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_index_sub_10" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_APPLICATION" indexName="FK_M6QGA3RFME47335JY8JXYXH3I">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_index_sub_11" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_ENABLED_EVENT_TYPES" indexName="FK_H846O4H0W8EPX5NWEDRF5Y69J">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_foreign_sub_0" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="IDENTITY_PROVIDER" baseColumnNames="REALM_ID" constraintName="FK2B4EBC52AE5C3B34" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_foreign_sub_1" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="PROTOCOL_MAPPER" baseColumnNames="CLIENT_ID" constraintName="FK_PCM_REALM" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_foreign_sub_2" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="FEDERATED_IDENTITY" baseColumnNames="USER_ID" constraintName="FK404288B92EF007A6" referencedTableName="USER_ENTITY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_foreign_sub_3" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="IDENTITY_PROVIDER_CONFIG" baseColumnNames="IDENTITY_PROVIDER_ID" constraintName="FKDC4897CF864C4E43" referencedTableName="IDENTITY_PROVIDER" referencedColumnNames="INTERNAL_ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_foreign_sub_4" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="PROTOCOL_MAPPER_CONFIG" baseColumnNames="PROTOCOL_MAPPER_ID" constraintName="FK_PMConfig" referencedTableName="PROTOCOL_MAPPER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_foreign_sub_5" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_IDENTITY_PROV_MAPPING" baseColumnNames="IDENTITY_PROVIDER_ID" constraintName="FK_7CELWNIBJI49AVXSRTUF6XJ12" referencedTableName="IDENTITY_PROVIDER" referencedColumnNames="INTERNAL_ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_foreign_sub_6" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_IDENTITY_PROV_MAPPING" baseColumnNames="CLIENT_ID" constraintName="FK_56ELWNIBJI49AVXSRTUF6XJ23" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_foreign_sub_7" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_SUPPORTED_LOCALES" baseColumnNames="REALM_ID" constraintName="FK_SUPPORTED_LOCALES_REALM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_foreign_sub_8" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_SESSION_NOTE" baseColumnNames="USER_SESSION" constraintName="FK5EDFB00FF51D3472" referencedTableName="USER_SESSION" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_foreign_sub_9" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_APPLICATION" baseColumnNames="APPLICATION_ID" constraintName="FK_82S3P0DIUXAWWQQSA528UBY2Q" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_foreign_sub_10" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_APPLICATION" baseColumnNames="REALM_ID" constraintName="FK_M6QGA3RFME47335JY8JXYXH3I" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.Beta1_foreign_sub_11" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_ENABLED_EVENT_TYPES" baseColumnNames="REALM_ID" constraintName="FK_H846O4H0W8EPX5NWEDRF5Y69J" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

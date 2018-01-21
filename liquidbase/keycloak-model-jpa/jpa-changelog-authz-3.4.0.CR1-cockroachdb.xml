@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part1_sub_1" author="glavoie@gmail.com" runInTransaction="true">
+        <addColumn tableName="RESOURCE_SERVER_RESOURCE">
+            <column name="RESOURCE_SERVER_CLIENT_ID" type="VARCHAR(36)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part1_sub_2" author="glavoie@gmail.com" runInTransaction="true">
+        <addColumn tableName="RESOURCE_SERVER_SCOPE">
+            <column name="RESOURCE_SERVER_CLIENT_ID" type="VARCHAR(36)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part2-KEYCLOAK-6095_sub_0" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <customChange class="org.keycloak.connections.jpa.updater.liquibase.custom.JpaUpdateAuthz_3_4_0_CR1"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed_sub_0" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="mssql"/>
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropIndex indexName="IDX_RES_SERV_POL_RES_SERV" tableName="RESOURCE_SERVER_POLICY"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed_sub_1" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="mssql"/>
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropIndex indexName="IDX_RES_SRV_RES_RES_SRV" tableName="RESOURCE_SERVER_RESOURCE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed_sub_2" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="mssql"/>
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropIndex indexName="IDX_RES_SRV_SCOPE_RES_SRV" tableName="RESOURCE_SERVER_SCOPE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0a" author="glavoie@gmail.com" runInTransaction="true">
+        <createTable tableName="RESOURCE_SERVER_POLICY_2">
+            <column name="ID" type="NVARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSRP"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="TYPE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DECISION_STRATEGY" type="VARCHAR(20)"/>
+            <column name="LOGIC" type="VARCHAR(20)"/>
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part1_sub_0" author="glavoie@gmail.com" >
+        <addColumn tableName="RESOURCE_SERVER_POLICY_2">
+            <column name="RESOURCE_SERVER_CLIENT_ID" type="VARCHAR(36)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0b" author="glavoie@gmail.com" runInTransaction="true">
+        <addUniqueConstraint columnNames="NAME,RESOURCE_SERVER_ID" constraintName="UK_FRSRPT700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER_POLICY_2"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0c" author="glavoie@gmail.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SERVER_POLICY_2" indexName="FK_FRSRPO213XCX4WNKOG82SSRFY">
+            <column name="RESOURCE_SERVER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0d" author="glavoie@gmail.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_SERVER_POLICY_2" baseColumnNames="RESOURCE_SERVER_ID" constraintName="FK_FRSRPO213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0e" author="glavoie@gmail.com" runInTransaction="true">
+        <dropForeignKeyConstraint baseTableName="POLICY_CONFIG" constraintName="FKDC34197CF864C4E43"/>
+        <addForeignKeyConstraint baseTableName="POLICY_CONFIG" baseColumnNames="POLICY_ID" constraintName="FKDC34197CF864C4E43" referencedTableName="RESOURCE_SERVER_POLICY_2" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0f" author="glavoie@gmail.com" runInTransaction="true">
+        <dropForeignKeyConstraint baseTableName="RESOURCE_POLICY" constraintName="FK_FRSRPP213XCX4WNKOG82SSRFY"/>
+        <addForeignKeyConstraint baseTableName="RESOURCE_POLICY" baseColumnNames="POLICY_ID" constraintName="FK_FRSRPP213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_POLICY_2" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0g" author="glavoie@gmail.com" runInTransaction="true">
+        <dropForeignKeyConstraint baseTableName="SCOPE_POLICY" constraintName="FK_FRSRASP13XCX4WNKOG82SSRFY"/>
+        <addForeignKeyConstraint baseTableName="SCOPE_POLICY" baseColumnNames="POLICY_ID" constraintName="FK_FRSRASP13XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_POLICY_2" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0h" author="glavoie@gmail.com" runInTransaction="true">
+        <dropForeignKeyConstraint baseTableName="ASSOCIATED_POLICY" constraintName="FK_FRSRPAS14XCX4WNKOG82SSRFY"/>
+        <addForeignKeyConstraint baseTableName="ASSOCIATED_POLICY" baseColumnNames="POLICY_ID" constraintName="FK_FRSRPAS14XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_POLICY_2" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0i" author="glavoie@gmail.com" runInTransaction="true">
+        <dropForeignKeyConstraint baseTableName="ASSOCIATED_POLICY" constraintName="FK_FRSR5S213XCX4WNKOG82SSRFY"/>
+        <addForeignKeyConstraint baseTableName="ASSOCIATED_POLICY" baseColumnNames="ASSOCIATED_POLICY_ID" constraintName="FK_FRSR5S213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_POLICY_2" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0j" author="glavoie@gmail.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SERVER_POLICY_2" indexName="IDX_RES_SERV_POL_RES_SERV">
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0k" author="glavoie@gmail.com" runInTransaction="true">
+        <sql>insert into RESOURCE_SERVER_POLICY_2 (ID, NAME, DESCRIPTION, TYPE, DECISION_STRATEGY, LOGIC, RESOURCE_SERVER_ID) select ID, NAME, DESCRIPTION, TYPE, DECISION_STRATEGY, LOGIC, RESOURCE_SERVER_ID from RESOURCE_SERVER_POLICY</sql>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0l" author="glavoie@gmail.com" runInTransaction="true">
+        <dropTable tableName="RESOURCE_SERVER_POLICY"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_0m" author="glavoie@gmail.com" runInTransaction="true">
+        <renameTable oldTableName="RESOURCE_SERVER_POLICY_2" newTableName="RESOURCE_SERVER_POLICY"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_1a" author="glavoie@gmail.com" runInTransaction="true">
+        <createTable tableName="RESOURCE_SERVER_RESOURCE_2">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSR"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="URI" type="VARCHAR(255)"/>
+            <column name="TYPE" type="VARCHAR(255)"/>
+            <column name="ICON_URI" type="VARCHAR(255)"/>
+            <column name="OWNER" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RESOURCE_SERVER_CLIENT_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_1b" author="glavoie@gmail.com" runInTransaction="true">
+        <addUniqueConstraint columnNames="NAME,OWNER,RESOURCE_SERVER_ID" constraintName="UK_FRSR6T700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER_RESOURCE_2"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_1c" author="glavoie@gmail.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SERVER_RESOURCE_2" indexName="FK_FRSRHO213XCX4WNKOG82SSRFY">
+            <column name="RESOURCE_SERVER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_1d" author="glavoie@gmail.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_SERVER_RESOURCE_2" baseColumnNames="RESOURCE_SERVER_ID" constraintName="FK_FRSRHO213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_1e" author="glavoie@gmail.com" runInTransaction="true">
+        <dropForeignKeyConstraint baseTableName="RESOURCE_POLICY" constraintName="FK_FRSRPOS53XCX4WNKOG82SSRFY"/>
+        <addForeignKeyConstraint baseTableName="RESOURCE_POLICY" baseColumnNames="RESOURCE_ID" constraintName="FK_FRSRPOS53XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_RESOURCE_2" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_1f" author="glavoie@gmail.com" runInTransaction="true">
+        <dropForeignKeyConstraint baseTableName="RESOURCE_SCOPE" constraintName="FK_FRSRPOS13XCX4WNKOG82SSRFY"/>
+        <addForeignKeyConstraint baseTableName="RESOURCE_SCOPE" baseColumnNames="RESOURCE_ID" constraintName="FK_FRSRPOS13XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_RESOURCE_2" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_1g" author="glavoie@gmail.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SERVER_RESOURCE_2" indexName="IDX_RES_SRV_RES_RES_SRV">
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_1h" author="glavoie@gmail.com" runInTransaction="true">
+        <sql>insert into RESOURCE_SERVER_RESOURCE_2 (ID, NAME, URI, TYPE, ICON_URI, OWNER, RESOURCE_SERVER_ID) select ID, NAME, URI, TYPE, ICON_URI, OWNER, RESOURCE_SERVER_ID from RESOURCE_SERVER_RESOURCE</sql>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_1i" author="glavoie@gmail.com" runInTransaction="true">
+        <dropTable tableName="RESOURCE_SERVER_RESOURCE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_1j" author="glavoie@gmail.com" runInTransaction="true">
+        <renameTable oldTableName="RESOURCE_SERVER_RESOURCE_2" newTableName="RESOURCE_SERVER_RESOURCE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_2a" author="glavoie@gmail.com" runInTransaction="true">
+        <createTable tableName="RESOURCE_SERVER_SCOPE_2">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSRS"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ICON_URI" type="VARCHAR(255)"/>
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RESOURCE_SERVER_CLIENT_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_2b" author="glavoie@gmail.com" runInTransaction="true">
+        <addUniqueConstraint columnNames="NAME,RESOURCE_SERVER_ID" constraintName="UK_FRSRST700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER_SCOPE_2"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_2c" author="glavoie@gmail.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SERVER_SCOPE_2" indexName="FK_FRSRSO213XCX4WNKOG82SSRFY">
+            <column name="RESOURCE_SERVER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_2d" author="glavoie@gmail.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_SERVER_SCOPE_2" baseColumnNames="RESOURCE_SERVER_ID" constraintName="FK_FRSRSO213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_2e" author="glavoie@gmail.com" runInTransaction="true">
+        <dropForeignKeyConstraint baseTableName="RESOURCE_SCOPE" constraintName="FK_FRSRPS213XCX4WNKOG82SSRFY"/>
+        <addForeignKeyConstraint baseTableName="RESOURCE_SCOPE" baseColumnNames="SCOPE_ID" constraintName="FK_FRSRPS213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_SCOPE_2" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_2f" author="glavoie@gmail.com" runInTransaction="true">
+        <dropForeignKeyConstraint baseTableName="SCOPE_POLICY" constraintName="FK_FRSRPASS3XCX4WNKOG82SSRFY"/>
+        <addForeignKeyConstraint baseTableName="SCOPE_POLICY" baseColumnNames="SCOPE_ID" constraintName="FK_FRSRPASS3XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_SCOPE_2" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_2g" author="glavoie@gmail.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SERVER_SCOPE_2" indexName="IDX_RES_SRV_SCOPE_RES_SRV">
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_2h" author="glavoie@gmail.com" runInTransaction="true">
+        <sql>insert into RESOURCE_SERVER_SCOPE_2 (ID, NAME, ICON_URI, RESOURCE_SERVER_ID) select ID, NAME, ICON_URI, RESOURCE_SERVER_ID from RESOURCE_SERVER_SCOPE</sql>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_2i" author="glavoie@gmail.com" runInTransaction="true">
+        <dropTable tableName="RESOURCE_SERVER_SCOPE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_2j" author="glavoie@gmail.com" runInTransaction="true">
+        <renameTable oldTableName="RESOURCE_SERVER_SCOPE_2" newTableName="RESOURCE_SERVER_SCOPE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_3" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropIndex indexName="UK_FRSRPT700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER_POLICY"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_4" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropIndex indexName="UK_FRSR6T700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER_RESOURCE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_5" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropIndex indexName="UK_FRSRST700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER_SCOPE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_6" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropForeignKeyConstraint baseTableName="RESOURCE_SERVER_POLICY" constraintName="FK_FRSRPO213XCX4WNKOG82SSRFY"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_7" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="RESOURCE_SERVER_ID" tableName="RESOURCE_SERVER_POLICY"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_8" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropForeignKeyConstraint baseTableName="RESOURCE_SERVER_RESOURCE" constraintName="FK_FRSRHO213XCX4WNKOG82SSRFY"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_9" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="RESOURCE_SERVER_ID" tableName="RESOURCE_SERVER_RESOURCE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_10" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropForeignKeyConstraint baseTableName="RESOURCE_SERVER_SCOPE" constraintName="FK_FRSRSO213XCX4WNKOG82SSRFY"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_11" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="RESOURCE_SERVER_ID" tableName="RESOURCE_SERVER_SCOPE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_13" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <dropIndex indexName="UK_AU8TT6T700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_14a" author="glavoie@gmail.com">
+        <createTable tableName="RESOURCE_SERVER_2">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_RESOURCE_SERVER"/>
+            </column>
+            <column name="ALLOW_RS_REMOTE_MGMT" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="POLICY_ENFORCE_MODE" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_14b" author="glavoie@gmail.com">
+        <sql>insert into RESOURCE_SERVER_2 (ID,ALLOW_RS_REMOTE_MGMT,POLICY_ENFORCE_MODE) select CLIENT_ID,ALLOW_RS_REMOTE_MGMT,POLICY_ENFORCE_MODE from RESOURCE_SERVER</sql>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_14c" author="glavoie@gmail.com">
+        <dropTable tableName="RESOURCE_SERVER"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_14d" author="glavoie@gmail.com">
+        <renameTable oldTableName="RESOURCE_SERVER_2" newTableName="RESOURCE_SERVER"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_16" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="RESOURCE_SERVER_CLIENT_ID" newColumnName="RESOURCE_SERVER_ID" columnDataType="VARCHAR(36)" tableName="RESOURCE_SERVER_POLICY"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_17" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="RESOURCE_SERVER_CLIENT_ID" newColumnName="RESOURCE_SERVER_ID" columnDataType="VARCHAR(36)" tableName="RESOURCE_SERVER_RESOURCE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_18" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="RESOURCE_SERVER_CLIENT_ID" newColumnName="RESOURCE_SERVER_ID" columnDataType="VARCHAR(36)" tableName="RESOURCE_SERVER_SCOPE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_19" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="NAME, RESOURCE_SERVER_ID" constraintName="UK_FRSRPT700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER_POLICY"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_20" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="NAME, OWNER, RESOURCE_SERVER_ID" constraintName="UK_FRSR6T700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER_RESOURCE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_21" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="NAME, RESOURCE_SERVER_ID" constraintName="UK_FRSRST700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER_SCOPE"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_22" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="RESOURCE_SERVER_POLICY" indexName="IDX_RES_SERV_POL_RES_SERV">
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_23" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="RESOURCE_SERVER_RESOURCE" indexName="IDX_RES_SRV_RES_RES_SRV">
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_sub_24" author="glavoie@gmail.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <changeSetExecuted id="authz-3.4.0.CR1-resource-server-pk-change-part3" author="glavoie@gmail.com" changeLogFile="META-INF/jpa-changelog-authz-3.4.0.CR1.xml"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="RESOURCE_SERVER_SCOPE" indexName="IDX_RES_SRV_SCOPE_RES_SRV">
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authn-3.4.0.CR1-refresh-token-max-reuse_sub_0" author="glavoie@gmail.com" runInTransaction="true">
+        <addColumn tableName="REALM">
+            <column name="REFRESH_TOKEN_MAX_REUSE" type="INT" defaultValueNumeric="0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_index_sub_0" author="glavoie@gmail.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SERVER_POLICY" indexName="FK_FRSRPO213XCX4WNKOG82SSRFY">
+            <column name="RESOURCE_SERVER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_index_sub_1" author="glavoie@gmail.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SERVER_RESOURCE" indexName="FK_FRSRHO213XCX4WNKOG82SSRFY">
+            <column name="RESOURCE_SERVER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_index_sub_2" author="glavoie@gmail.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SERVER_SCOPE" indexName="FK_FRSRSO213XCX4WNKOG82SSRFY">
+            <column name="RESOURCE_SERVER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_foreign_sub_0" author="glavoie@gmail.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_SERVER_POLICY" baseColumnNames="RESOURCE_SERVER_ID" constraintName="FK_FRSRPO213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_foreign_sub_1" author="glavoie@gmail.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_SERVER_RESOURCE" baseColumnNames="RESOURCE_SERVER_ID" constraintName="FK_FRSRHO213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-3.4.0.CR1-resource-server-pk-change-part3-fixed-nodropindex_foreign_sub_2" author="glavoie@gmail.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_SERVER_SCOPE" baseColumnNames="RESOURCE_SERVER_ID" constraintName="FK_FRSRSO213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>
