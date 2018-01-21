@@ -9,7 +9,7 @@
 
 # Intelij
 *.iml
-*/.idea/*
+.idea/*
 
 # BlueJ files
 *.ctxt
