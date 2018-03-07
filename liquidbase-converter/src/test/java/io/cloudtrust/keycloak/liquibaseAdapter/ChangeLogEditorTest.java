@@ -15,11 +15,13 @@ import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class ChangeLogEditorTest {
+    
+    private static String SCRIPTS_ROOT = "/home/harture/work/keycloak-cockroach/keycloak/model/jpa/src/main/resources/META-INF/";
     private ChangeLogEditor logEditor = new ChangeLogEditor();
 
     @Test
     public void testLoadDatabaseChangeLog() throws JAXBException {
-        logEditor.loadDatabaseChangeLog("/home/add/CloudTrust/keycloak-stable/model/jpa/src/main/resources/META-INF/jpa-changelog-1.0.0.Final.xml");
+        logEditor.loadDatabaseChangeLog(SCRIPTS_ROOT + "jpa-changelog-1.0.0.Final.xml");
         assertNotNull(logEditor.getDcl());
         List<DatabaseChangeLog.ChangeSet> changeSetList = logEditor.getDcl().getChangeSetOrIncludeOrIncludeAll()
                 .stream().filter(DatabaseChangeLog.ChangeSet.class::isInstance).map(DatabaseChangeLog.ChangeSet.class::cast)
@@ -28,7 +30,7 @@ public class ChangeLogEditorTest {
     }
     @Test
     public void testMergeAddPrimeryKeyIntoCreateTable() throws JAXBException {
-        logEditor.loadDatabaseChangeLog("/home/add/CloudTrust/keycloak-stable/model/jpa/src/main/resources/META-INF/jpa-changelog-1.0.0.Final.xml");
+        logEditor.loadDatabaseChangeLog(SCRIPTS_ROOT + "jpa-changelog-1.0.0.Final.xml");
         logEditor.mergeAddPrimeryKeyIntoCreateTable();
         String output = logEditor.toString();
         System.out.print(output);
@@ -37,7 +39,7 @@ public class ChangeLogEditorTest {
 
     @Test
     public void testCreateIndexesForForeignKeys() throws JAXBException {
-        logEditor.loadDatabaseChangeLog("/home/add/CloudTrust/keycloak-stable/model/jpa/src/main/resources/META-INF/jpa-changelog-1.0.0.Final.xml");
+        logEditor.loadDatabaseChangeLog(SCRIPTS_ROOT + "jpa-changelog-1.0.0.Final.xml");
         logEditor.createIndexesForForeignKeys();
         String output = logEditor.toString();
         System.out.print(output);
@@ -50,8 +52,24 @@ public class ChangeLogEditorTest {
     }
 
     @Test
+    public void testChangeModifyDataTypeToRecreateColumn() throws  JAXBException, IOException {
+        logEditor.loadDatabaseChangeLog(SCRIPTS_ROOT + "jpa-changelog-1.7.0.xml");
+        String output = logEditor.toString();
+        assertTrue(output.contains("modifyDataType"));
+        logEditor.changeModifyDataTypeToRecreateColumn();
+        output = logEditor.toString();
+        System.out.print(output);
+        assertFalse(output.contains("modifyDataType"));
+        assertTrue(output.contains("addColumn"));
+        assertTrue(output.lastIndexOf("addColumn") < output.lastIndexOf("<sql>"));
+        assertTrue(output.lastIndexOf("<sql>") < output.lastIndexOf("dropColumn"));
+        assertTrue(output.lastIndexOf("dropColumn") < output.lastIndexOf("renameColumn"));
+
+    }
+
+    @Test
     public void testChangeDropUniqueConstraintToDropIndex() throws JAXBException {
-        logEditor.loadDatabaseChangeLog("/home/add/CloudTrust/keycloak-stable/model/jpa/src/main/resources/META-INF/jpa-changelog-1.2.0.Beta1.xml");
+        logEditor.loadDatabaseChangeLog(SCRIPTS_ROOT + "jpa-changelog-1.2.0.Beta1.xml");
         String output = logEditor.toString();
         assertTrue(output.contains("dropUniqueConstraint"));
         logEditor.changeDropUniqueConstraintToDropIndex();
@@ -63,9 +81,9 @@ public class ChangeLogEditorTest {
 
     @Test
     public void testPrintToFile() throws JAXBException, IOException {
-        logEditor.loadDatabaseChangeLog("/home/add/CloudTrust/keycloak-stable/model/jpa/src/main/resources/META-INF/jpa-changelog-1.0.0.Final.xml");
+        logEditor.loadDatabaseChangeLog(SCRIPTS_ROOT + "jpa-changelog-1.0.0.Final.xml");
         logEditor.mergeAddPrimeryKeyIntoCreateTable();
         logEditor.printToFile();
-        assertTrue(new File("/home/add/CloudTrust/keycloak-stable/model/jpa/src/main/resources/META-INF/jpa-changelog-1.0.0.Final-cockroachdb.xml").exists());
+        assertTrue(new File(SCRIPTS_ROOT + "jpa-changelog-1.0.0.Final-cockroachdb.xml").exists());
     }
 }

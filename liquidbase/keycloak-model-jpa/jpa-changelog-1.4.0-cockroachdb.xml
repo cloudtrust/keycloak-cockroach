@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="1.4.0_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="CLIENT_SESSION_AUTH_STATUS"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="CLIENT_SESSION_ROLE"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="CLIENT_SESSION_PROT_MAPPER"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="CLIENT_SESSION_NOTE"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="CLIENT_SESSION"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_5" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="USER_SESSION_NOTE"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_6" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="USER_SESSION"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_7" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="CLIENT">
+            <column name="SERVICE_ACCOUNTS_ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.4.0_sub_8" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="CLIENT_SESSION">
+            <column name="CURRENT_ACTION" type="VARCHAR(36)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.4.0_sub_9" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="AUTHENTICATION_FLOW">
+            <column name="PROVIDER_ID" type="VARCHAR(36)" defaultValue="basic-flow">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TOP_LEVEL" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BUILT_IN" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.4.0_sub_10" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="AUTHENTICATION_EXECUTION">
+            <column name="AUTH_FLOW_ID" type="VARCHAR(36)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="AUTH_CONFIG" type="VARCHAR(36)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.4.0_sub_11" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="USER_ATTRIBUTE">
+            <column name="ID" type="VARCHAR(36)" defaultValue="sybase-needs-something-here">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.4.0_sub_12" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="PROVIDER_ID" tableName="AUTHENTICATOR"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_13" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameTable oldTableName="AUTHENTICATOR_CONFIG" newTableName="AUTHENTICATOR_CONFIG_ENTRY"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_14" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameTable oldTableName="AUTHENTICATOR" newTableName="AUTHENTICATOR_CONFIG"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_15" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CLIENT_SESSION">
+            <column name="CURRENT_ACTION" value="OAUTH_GRANT"/>
+            <where>ACTION = 0</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.4.0_sub_16" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CLIENT_SESSION">
+            <column name="CURRENT_ACTION" value="CODE_TO_TOKEN"/>
+            <where>ACTION = 1</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.4.0_sub_17" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CLIENT_SESSION">
+            <column name="CURRENT_ACTION" value="VERIFY_EMAIL"/>
+            <where>ACTION = 2</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.4.0_sub_18" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CLIENT_SESSION">
+            <column name="CURRENT_ACTION" value="UPDATE_PROFILE"/>
+            <where>ACTION = 3</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.4.0_sub_19" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CLIENT_SESSION">
+            <column name="CURRENT_ACTION" value="CONFIGURE_TOTP"/>
+            <where>ACTION = 4</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.4.0_sub_20" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CLIENT_SESSION">
+            <column name="CURRENT_ACTION" value="UPDATE_PASSWORD"/>
+            <where>ACTION = 5</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.4.0_sub_21" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CLIENT_SESSION">
+            <column name="CURRENT_ACTION" value="RECOVER_PASSWORD"/>
+            <where>ACTION = 6</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.4.0_sub_22" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CLIENT_SESSION">
+            <column name="CURRENT_ACTION" value="AUTHENTICATE"/>
+            <where>ACTION = 7</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.4.0_sub_23" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CLIENT_SESSION">
+            <column name="CURRENT_ACTION" value="SOCIAL_CALLBACK"/>
+            <where>ACTION = 8</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.4.0_sub_24" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CLIENT_SESSION">
+            <column name="CURRENT_ACTION" value="LOGGED_OUT"/>
+            <where>ACTION = 9</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.4.0_sub_25" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CLIENT_USER_SESSION_NOTE">
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_CL_USR_SES_NOTE"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(2048)"/>
+            <column name="CLIENT_SESSION" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_CL_USR_SES_NOTE"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.4.0_sub_26" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REQUIRED_ACTION_PROVIDER">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_REQ_ACT_PRV_PK"/>
+            </column>
+            <column name="ALIAS" type="VARCHAR(255)"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+            <column name="ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DEFAULT_ACTION" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PROVIDER_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.4.0_sub_27" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="REQUIRED_ACTION_CONFIG">
+            <column name="REQUIRED_ACTION_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_REQ_ACT_CFG_PK"/>
+            </column>
+            <column name="VALUE" type="CLOB"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_REQ_ACT_CFG_PK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.4.0_sub_28" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <customChange class="org.keycloak.connections.jpa.updater.liquibase.custom.JpaUpdate1_4_0_Final"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_29a" author="bburke@redhat.com">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_ATTRIBUTE_2">
+            <column name="ID" type="VARCHAR(36)" defaultValue="sybase-needs-something-here">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_USER_ATTRIBUTE_PK"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+            <column name="USER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.4.0_sub_29b" author="bburke@redhat.com">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <sql>insert into USER_ATTRIBUTE_2 (ID,NAME,VALUE,USER_ID) select ID,NAME,VALUE,USER_ID from USER_ATTRIBUTE</sql>
+    </changeSet>
+    <changeSet id="1.4.0_sub_29c" author="bburke@redhat.com">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropTable tableName="USER_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_29d" author="bburke@redhat.com">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameTable oldTableName="USER_ATTRIBUTE_2" newTableName="USER_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_29e" author="bburke@redhat.com">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="USER_ATTRIBUTE" indexName="FK_5HRM2VLF9QL5FU043KQEPOVBR">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.4.0_sub_29ebis" author="bburke@redhat.com">
+        <addForeignKeyConstraint baseTableName="USER_ATTRIBUTE" baseColumnNames="USER_ID" constraintName="FK_5HRM2VLF9QL5FU043KQEPOVBR" referencedTableName="USER_ENTITY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_31" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="ACTION" tableName="CLIENT_SESSION"/>
+    </changeSet>
+    <changeSet id="1.4.0_sub_32" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="USER_ENTITY">
+            <column name="CREATED_TIMESTAMP" type="BIGINT"/>
+            <column name="SERVICE_ACCOUNT_CLIENT_LINK" type="VARCHAR(36)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.4.0_index_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="REQUIRED_ACTION_PROVIDER" indexName="FK_REQ_ACT_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.4.0_index_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT_USER_SESSION_NOTE" indexName="FK_CL_USR_SES_NOTE">
+            <column name="CLIENT_SESSION"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.4.0_foreign_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REQUIRED_ACTION_PROVIDER" baseColumnNames="REALM_ID" constraintName="FK_REQ_ACT_REALM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.4.0_foreign_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_USER_SESSION_NOTE" baseColumnNames="CLIENT_SESSION" constraintName="FK_CL_USR_SES_NOTE" referencedTableName="CLIENT_SESSION" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

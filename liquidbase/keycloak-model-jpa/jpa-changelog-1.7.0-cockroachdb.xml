@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="1.7.0_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="KEYCLOAK_GROUP">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_GROUP"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="PARENT_GROUP" type="VARCHAR(36)"/>
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.7.0_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="GROUP_ROLE_MAPPING">
+            <column name="ROLE_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_GROUP_ROLE"/>
+            </column>
+            <column name="GROUP_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_GROUP_ROLE"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.7.0_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="GROUP_ATTRIBUTE">
+            <column name="ID" type="VARCHAR(36)" defaultValue="sybase-needs-something-here">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_GROUP_ATTRIBUTE_PK"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+            <column name="GROUP_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.7.0_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="USER_GROUP_MEMBERSHIP">
+            <column name="GROUP_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_USER_GROUP"/>
+            </column>
+            <column name="USER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_USER_GROUP"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.7.0_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="REALM_DEFAULT_GROUPS">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GROUP_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.7.0_sub_5" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="IDENTITY_PROVIDER">
+            <column name="FIRST_BROKER_LOGIN_FLOW_ID" type="VARCHAR(36)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.7.0_sub_6" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="REALM">
+            <column name="ACCESS_TOKEN_LIFE_IMPLICIT" type="INT" defaultValueNumeric="0"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.7.0_sub_7" author="bburke@redhat.com" runInTransaction="true">
+        <dropDefaultValue columnName="UPDATE_PROFILE_FIRST_LGN_MD" tableName="IDENTITY_PROVIDER"/>
+    </changeSet>
+    <changeSet id="1.7.0_sub_8" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn columnName="UPDATE_PROFILE_FIRST_LGN_MD" tableName="IDENTITY_PROVIDER"/>
+    </changeSet>
+    <changeSet id="1.7.0_sub_9" author="bburke@redhat.com" runInTransaction="true">
+        <addUniqueConstraint columnNames="GROUP_ID" constraintName="CON_GROUP_ID_DEF_GROUPS" tableName="REALM_DEFAULT_GROUPS"/>
+    </changeSet>
+    <changeSet id="1.7.0_sub_10" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="CLIENT">
+            <column name="REGISTRATION_TOKEN" type="VARCHAR(255)"/>
+            <column name="STANDARD_FLOW_ENABLED" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IMPLICIT_FLOW_ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DIRECT_ACCESS_GRANTS_ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.7.0_sub_11" author="bburke@redhat.com" runInTransaction="true">
+        <update tableName="CLIENT">
+            <column name="STANDARD_FLOW_ENABLED" valueBoolean="false"/>
+            <column name="DIRECT_ACCESS_GRANTS_ENABLED" valueBoolean="true"/>
+            <where>DIRECT_GRANTS_ONLY = :value</where>
+            <whereParams>
+                <param valueBoolean="true"/>
+            </whereParams>
+        </update>
+    </changeSet>
+    <changeSet id="1.7.0_sub_12" author="bburke@redhat.com" runInTransaction="true">
+        <dropDefaultValue columnName="DIRECT_GRANTS_ONLY" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="1.7.0_sub_13" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn columnName="DIRECT_GRANTS_ONLY" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="1.7.0_sub_14" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="REALM">
+            <column name="PASSWORD_POLICY_2" type="VARCHAR(2550)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.7.0_sub_15" author="bburke@redhat.com" runInTransaction="true">
+        <sql>update REALM set PASSWORD_POLICY_2 = PASSWORD_POLICY</sql>
+    </changeSet>
+    <changeSet id="1.7.0_sub_16" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn columnName="PASSWORD_POLICY" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="1.7.0_sub_17" author="bburke@redhat.com" runInTransaction="true">
+        <renameColumn oldColumnName="PASSWORD_POLICY_2" newColumnName="PASSWORD_POLICY" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="1.7.0_index_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="KEYCLOAK_GROUP" indexName="FK_GROUP_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.7.0_index_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="GROUP_ATTRIBUTE" indexName="FK_GROUP_ATTRIBUTE_GROUP">
+            <column name="GROUP_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.7.0_index_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_GROUP_MEMBERSHIP" indexName="FK_USER_GROUP_USER">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.7.0_index_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="GROUP_ROLE_MAPPING" indexName="FK_GROUP_ROLE_GROUP">
+            <column name="GROUP_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.7.0_index_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="GROUP_ROLE_MAPPING" indexName="FK_GROUP_ROLE_ROLE">
+            <column name="ROLE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.7.0_index_sub_5" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_DEFAULT_GROUPS" indexName="FK_DEF_GROUPS_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.7.0_index_sub_6" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_DEFAULT_GROUPS" indexName="FK_DEF_GROUPS_GROUP">
+            <column name="GROUP_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.7.0_foreign_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="KEYCLOAK_GROUP" baseColumnNames="REALM_ID" constraintName="FK_GROUP_REALM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.7.0_foreign_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="GROUP_ATTRIBUTE" baseColumnNames="GROUP_ID" constraintName="FK_GROUP_ATTRIBUTE_GROUP" referencedTableName="KEYCLOAK_GROUP" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.7.0_foreign_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_GROUP_MEMBERSHIP" baseColumnNames="USER_ID" constraintName="FK_USER_GROUP_USER" referencedTableName="USER_ENTITY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.7.0_foreign_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="GROUP_ROLE_MAPPING" baseColumnNames="GROUP_ID" constraintName="FK_GROUP_ROLE_GROUP" referencedTableName="KEYCLOAK_GROUP" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.7.0_foreign_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="GROUP_ROLE_MAPPING" baseColumnNames="ROLE_ID" constraintName="FK_GROUP_ROLE_ROLE" referencedTableName="KEYCLOAK_ROLE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.7.0_foreign_sub_5" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_DEFAULT_GROUPS" baseColumnNames="REALM_ID" constraintName="FK_DEF_GROUPS_REALM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.7.0_foreign_sub_6" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_DEFAULT_GROUPS" baseColumnNames="GROUP_ID" constraintName="FK_DEF_GROUPS_GROUP" referencedTableName="KEYCLOAK_GROUP" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

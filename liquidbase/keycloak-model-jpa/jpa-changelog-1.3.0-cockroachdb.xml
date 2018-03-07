@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="1.3.0_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <delete tableName="CLIENT_SESSION_ROLE"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <delete tableName="CLIENT_SESSION_PROT_MAPPER"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <delete tableName="CLIENT_SESSION_NOTE"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <delete tableName="CLIENT_SESSION"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <delete tableName="USER_SESSION_NOTE"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_5" author="bburke@redhat.com" runInTransaction="true">
+        <delete tableName="USER_SESSION"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_6" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="ADMIN_EVENT_ENTITY">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ADMIN_EVENT_TIME" type="BIGINT"/>
+            <column name="REALM_ID" type="VARCHAR(255)"/>
+            <column name="OPERATION_TYPE" type="VARCHAR(255)"/>
+            <column name="AUTH_REALM_ID" type="VARCHAR(255)"/>
+            <column name="AUTH_CLIENT_ID" type="VARCHAR(255)"/>
+            <column name="AUTH_USER_ID" type="VARCHAR(255)"/>
+            <column name="IP_ADDRESS" type="VARCHAR(255)"/>
+            <column name="RESOURCE_PATH" type="VARCHAR(2550)"/>
+            <column name="REPRESENTATION" type="TEXT(25500)"/>
+            <column name="ERROR" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.3.0_sub_7" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="AUTHENTICATOR">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_AUTH_PK"/>
+            </column>
+            <column name="ALIAS" type="VARCHAR(255)"/>
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+            <column name="PROVIDER_ID" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.3.0_sub_8" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="AUTHENTICATION_FLOW">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_AUTH_FLOW_PK"/>
+            </column>
+            <column name="ALIAS" type="VARCHAR(255)"/>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.3.0_sub_9" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="AUTHENTICATION_EXECUTION">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_AUTH_EXEC_PK"/>
+            </column>
+            <column name="ALIAS" type="VARCHAR(255)"/>
+            <column name="AUTHENTICATOR" type="VARCHAR(36)"/>
+            <column name="REALM_ID" type="VARCHAR(36)"/>
+            <column name="FLOW_ID" type="VARCHAR(36)"/>
+            <column name="REQUIREMENT" type="INT"/>
+            <column name="PRIORITY" type="INT"/>
+            <column name="USER_SETUP_ALLOWED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AUTHENTICATOR_FLOW" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.3.0_sub_10" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="AUTHENTICATOR_CONFIG">
+            <column name="AUTHENTICATOR_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_AUTH_CFG_PK"/>
+            </column>
+            <column name="VALUE" type="CLOB"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_AUTH_CFG_PK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.3.0_sub_11" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="USER_FEDERATION_MAPPER">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FEDMAPPERPM"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FEDERATION_PROVIDER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FEDERATION_MAPPER_TYPE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.3.0_sub_12" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="USER_FEDERATION_MAPPER_CONFIG">
+            <column name="USER_FEDERATION_MAPPER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FEDMAPPER_CFG_PM"/>
+            </column>
+            <column name="VALUE" type="VARCHAR(255)"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FEDMAPPER_CFG_PM"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.3.0_sub_13" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="REALM">
+            <column name="ADMIN_EVENTS_ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ADMIN_EVENTS_DETAILS_ENABLED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EDIT_USERNAME_ALLOWED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.3.0_sub_14" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="CLIENT_SESSION_AUTH_STATUS">
+            <column name="AUTHENTICATOR" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_AUTH_STATUS_PK"/>
+            </column>
+            <column name="STATUS" type="INT"/>
+            <column name="CLIENT_SESSION" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_AUTH_STATUS_PK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.3.0_sub_15" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="CLIENT_SESSION">
+            <column name="AUTH_USER_ID" type="VARCHAR(36)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.3.0_sub_16" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="IDENTITY_PROVIDER">
+            <column name="TRUST_EMAIL" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UPDATE_PROFILE_FIRST_LGN_MD" type="VARCHAR(255)" defaultValue="on">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.3.0_sub_17" author="bburke@redhat.com" runInTransaction="true">
+        <update tableName="IDENTITY_PROVIDER">
+            <column name="UPDATE_PROFILE_FIRST_LGN_MD" value="off"/>
+            <where>UPDATE_PROFILE_FIRST_LOGIN = :value</where>
+            <whereParams>
+                <param valueBoolean="false"/>
+            </whereParams>
+        </update>
+    </changeSet>
+    <changeSet id="1.3.0_sub_18" author="bburke@redhat.com" runInTransaction="true">
+        <dropDefaultValue columnName="UPDATE_PROFILE_FIRST_LOGIN" tableName="IDENTITY_PROVIDER"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_19" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn columnName="UPDATE_PROFILE_FIRST_LOGIN" tableName="IDENTITY_PROVIDER"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_20" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="USER_REQUIRED_ACTION">
+            <column name="REQUIRED_ACTION" type="VARCHAR(255)" defaultValue=" ">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.3.0_sub_21" author="bburke@redhat.com" runInTransaction="true">
+        <update tableName="USER_REQUIRED_ACTION">
+            <column name="REQUIRED_ACTION" value="VERIFY_EMAIL"/>
+            <where>ACTION = 0</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.3.0_sub_22" author="bburke@redhat.com" runInTransaction="true">
+        <update tableName="USER_REQUIRED_ACTION">
+            <column name="REQUIRED_ACTION" value="UPDATE_PROFILE"/>
+            <where>ACTION = 1</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.3.0_sub_23" author="bburke@redhat.com" runInTransaction="true">
+        <update tableName="USER_REQUIRED_ACTION">
+            <column name="REQUIRED_ACTION" value="CONFIGURE_TOTP"/>
+            <where>ACTION = 2</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.3.0_sub_24" author="bburke@redhat.com" runInTransaction="true">
+        <update tableName="USER_REQUIRED_ACTION">
+            <column name="REQUIRED_ACTION" value="UPDATE_PASSWORD"/>
+            <where>ACTION = 3</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.3.0_sub_25a" author="bburke@redhat.com">
+        <createTable tableName="USER_REQUIRED_ACTION_2">
+            <column name="USER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_REQUIRED_ACTION"/>
+            </column>
+            <column name="REQUIRED_ACTION" type="VARCHAR(255)" defaultValue=" ">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_REQUIRED_ACTION"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.3.0_sub_25b" author="bburke@redhat.com">
+        <sql>insert into USER_REQUIRED_ACTION_2 (USER_ID,REQUIRED_ACTION) select USER_ID, REQUIRED_ACTION from USER_REQUIRED_ACTION</sql>
+    </changeSet>
+    <changeSet id="1.3.0_sub_25c" author="bburke@redhat.com">
+        <dropTable tableName="USER_REQUIRED_ACTION"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_25d" author="bburke@redhat.com">
+        <renameTable oldTableName="USER_REQUIRED_ACTION_2" newTableName="USER_REQUIRED_ACTION"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_25e" author="bburke@redhat.com">
+        <createIndex tableName="USER_REQUIRED_ACTION" indexName="FK_6QJ3W1JW9CVAFHE19BWSIUVMD">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.3.0_sub_25f" author="sthorger@redhat.com">
+        <addForeignKeyConstraint baseTableName="USER_REQUIRED_ACTION" baseColumnNames="USER_ID" constraintName="FK_6QJ3W1JW9CVAFHE19BWSIUVMD" referencedTableName="USER_ENTITY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_28" author="bburke@redhat.com" runInTransaction="true">
+        <dropDefaultValue columnName="PASSWORD_CRED_GRANT_ALLOWED" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_29" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn columnName="PASSWORD_CRED_GRANT_ALLOWED" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_30" author="bburke@redhat.com" runInTransaction="true">
+        <dropForeignKeyConstraint baseTableName="PROTOCOL_MAPPER_CONFIG" constraintName="FK_PMConfig"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_31a" author="bburke@redhat.com">
+        <createTable tableName="PROTOCOL_MAPPER_CONFIG_2">
+            <column name="PROTOCOL_MAPPER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_PMCONFIG"/>
+            </column>
+            <column name="VALUE" type="CLOB"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_PMCONFIG"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.3.0_sub_31b" author="bburke@redhat.com">
+        <sql>insert into PROTOCOL_MAPPER_CONFIG_2 (PROTOCOL_MAPPER_ID,VALUE,NAME) select PROTOCOL_MAPPER_ID,VALUE,NAME from PROTOCOL_MAPPER_CONFIG</sql>
+    </changeSet>
+    <changeSet id="1.3.0_sub_31c" author="bburke@redhat.com">
+        <dropTable tableName="PROTOCOL_MAPPER_CONFIG"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_31d" author="bburke@redhat.com">
+        <renameTable oldTableName="PROTOCOL_MAPPER_CONFIG_2" newTableName="PROTOCOL_MAPPER_CONFIG"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_33" author="bburke@redhat.com" runInTransaction="true">
+        <dropForeignKeyConstraint baseTableName="IDP_MAPPER_CONFIG" constraintName="FK_IDPMConfig"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_34a" author="bburke@redhat.com">
+        <createTable tableName="IDP_MAPPER_CONFIG_2">
+            <column name="IDP_MAPPER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_IDPMCONFIG"/>
+            </column>
+            <column name="VALUE" type="CLOB"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_IDPMCONFIG"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.3.0_sub_34b" author="bburke@redhat.com">
+        <sql>insert into IDP_MAPPER_CONFIG_2 (IDP_MAPPER_ID,VALUE,NAME) select IDP_MAPPER_ID,VALUE,NAME from IDP_MAPPER_CONFIG</sql>
+    </changeSet>
+    <changeSet id="1.3.0_sub_34c" author="bburke@redhat.com">
+        <dropTable tableName="IDP_MAPPER_CONFIG"/>
+    </changeSet>
+    <changeSet id="1.3.0_sub_34d" author="bburke@redhat.com">
+        <renameTable oldTableName="IDP_MAPPER_CONFIG_2" newTableName="IDP_MAPPER_CONFIG"/>
+    </changeSet>
+    <changeSet id="1.3.0_index_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT_SESSION_AUTH_STATUS" indexName="AUTH_STATUS_CONSTRAINT">
+            <column name="CLIENT_SESSION"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.3.0_index_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="AUTHENTICATOR" indexName="FK_AUTH_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.3.0_index_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="AUTHENTICATION_FLOW" indexName="FK_AUTH_FLOW_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.3.0_index_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="AUTHENTICATION_EXECUTION" indexName="FK_AUTH_EXEC_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.3.0_index_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="AUTHENTICATION_EXECUTION" indexName="FK_AUTH_EXEC_FLOW">
+            <column name="FLOW_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.3.0_index_sub_5" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_FEDERATION_MAPPER" indexName="FK_FEDMAPPERPM_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.3.0_index_sub_6" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_FEDERATION_MAPPER" indexName="FK_FEDMAPPERPM_FEDPRV">
+            <column name="FEDERATION_PROVIDER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.3.0_index_sub_7" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_FEDERATION_MAPPER_CONFIG" indexName="FK_FEDMAPPER_CFG">
+            <column name="USER_FEDERATION_MAPPER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.3.0_index_sub_8" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="PROTOCOL_MAPPER_CONFIG" indexName="FK_PMCONFIG">
+            <column name="PROTOCOL_MAPPER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.3.0_index_sub_9" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="IDP_MAPPER_CONFIG" indexName="FK_IDPMCONFIG">
+            <column name="IDP_MAPPER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.3.0_foreign_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_SESSION_AUTH_STATUS" baseColumnNames="CLIENT_SESSION" constraintName="AUTH_STATUS_CONSTRAINT" referencedTableName="CLIENT_SESSION" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.3.0_foreign_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="AUTHENTICATOR" baseColumnNames="REALM_ID" constraintName="FK_AUTH_REALM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.3.0_foreign_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="AUTHENTICATION_FLOW" baseColumnNames="REALM_ID" constraintName="FK_AUTH_FLOW_REALM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.3.0_foreign_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="AUTHENTICATION_EXECUTION" baseColumnNames="REALM_ID" constraintName="FK_AUTH_EXEC_REALM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.3.0_foreign_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="AUTHENTICATION_EXECUTION" baseColumnNames="FLOW_ID" constraintName="FK_AUTH_EXEC_FLOW" referencedTableName="AUTHENTICATION_FLOW" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.3.0_foreign_sub_5" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_FEDERATION_MAPPER" baseColumnNames="REALM_ID" constraintName="FK_FEDMAPPERPM_REALM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.3.0_foreign_sub_6" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_FEDERATION_MAPPER" baseColumnNames="FEDERATION_PROVIDER_ID" constraintName="FK_FEDMAPPERPM_FEDPRV" referencedTableName="USER_FEDERATION_PROVIDER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.3.0_foreign_sub_7" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_FEDERATION_MAPPER_CONFIG" baseColumnNames="USER_FEDERATION_MAPPER_ID" constraintName="FK_FEDMAPPER_CFG" referencedTableName="USER_FEDERATION_MAPPER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.3.0_foreign_sub_8" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="PROTOCOL_MAPPER_CONFIG" baseColumnNames="PROTOCOL_MAPPER_ID" constraintName="FK_PMCONFIG" referencedTableName="PROTOCOL_MAPPER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.3.0_foreign_sub_9" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="IDP_MAPPER_CONFIG" baseColumnNames="IDP_MAPPER_ID" constraintName="FK_IDPMCONFIG" referencedTableName="IDENTITY_PROVIDER_MAPPER" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

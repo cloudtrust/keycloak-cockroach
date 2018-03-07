@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="authz-2.0.0_sub_0" author="psilva@redhat.com" runInTransaction="true">
+        <createTable tableName="RESOURCE_SERVER">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARS"/>
+            </column>
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ALLOW_RS_REMOTE_MGMT" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="POLICY_ENFORCE_MODE" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-2.0.0_sub_1" author="psilva@redhat.com" runInTransaction="true">
+        <addUniqueConstraint columnNames="CLIENT_ID" constraintName="UK_AU8TT6T700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_sub_2" author="psilva@redhat.com" runInTransaction="true">
+        <createTable tableName="RESOURCE_SERVER_RESOURCE">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSR"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="URI" type="VARCHAR(255)"/>
+            <column name="TYPE" type="VARCHAR(255)"/>
+            <column name="ICON_URI" type="VARCHAR(255)"/>
+            <column name="OWNER" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-2.0.0_sub_3" author="psilva@redhat.com" runInTransaction="true">
+        <addUniqueConstraint columnNames="NAME,OWNER,RESOURCE_SERVER_ID" constraintName="UK_FRSR6T700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER_RESOURCE"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_sub_4" author="psilva@redhat.com" runInTransaction="true">
+        <createTable tableName="RESOURCE_SERVER_SCOPE">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSRS"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ICON_URI" type="VARCHAR(255)"/>
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-2.0.0_sub_5" author="psilva@redhat.com" runInTransaction="true">
+        <addUniqueConstraint columnNames="NAME,RESOURCE_SERVER_ID" constraintName="UK_FRSRST700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER_SCOPE"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_sub_6" author="psilva@redhat.com" runInTransaction="true">
+        <createTable tableName="RESOURCE_SERVER_POLICY">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSRP"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="TYPE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DECISION_STRATEGY" type="VARCHAR(20)"/>
+            <column name="LOGIC" type="VARCHAR(20)"/>
+            <column name="RESOURCE_SERVER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-2.0.0_sub_7" author="psilva@redhat.com" runInTransaction="true">
+        <addUniqueConstraint columnNames="NAME,RESOURCE_SERVER_ID" constraintName="UK_FRSRPT700S9V50BU18WS5HA6" tableName="RESOURCE_SERVER_POLICY"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_sub_8" author="psilva@redhat.com" runInTransaction="true">
+        <createTable tableName="POLICY_CONFIG">
+            <column name="POLICY_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_DPC"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_DPC"/>
+            </column>
+            <column name="VALUE" type="CLOB"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-2.0.0_sub_9" author="psilva@redhat.com" runInTransaction="true">
+        <createTable tableName="RESOURCE_SCOPE">
+            <column name="RESOURCE_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSRSP"/>
+            </column>
+            <column name="SCOPE_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSRSP"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-2.0.0_sub_10" author="psilva@redhat.com" runInTransaction="true">
+        <createTable tableName="RESOURCE_POLICY">
+            <column name="RESOURCE_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSRPP"/>
+            </column>
+            <column name="POLICY_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSRPP"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-2.0.0_sub_11" author="psilva@redhat.com" runInTransaction="true">
+        <createTable tableName="SCOPE_POLICY">
+            <column name="SCOPE_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSRSPS"/>
+            </column>
+            <column name="POLICY_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSRSPS"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-2.0.0_sub_12" author="psilva@redhat.com" runInTransaction="true">
+        <createTable tableName="ASSOCIATED_POLICY">
+            <column name="POLICY_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSRPAP"/>
+            </column>
+            <column name="ASSOCIATED_POLICY_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_FARSRPAP"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="authz-2.0.0_index_sub_0" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SERVER_RESOURCE" indexName="FK_FRSRHO213XCX4WNKOG82SSRFY">
+            <column name="RESOURCE_SERVER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-2.0.0_index_sub_1" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SERVER_SCOPE" indexName="FK_FRSRSO213XCX4WNKOG82SSRFY">
+            <column name="RESOURCE_SERVER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-2.0.0_index_sub_2" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SERVER_POLICY" indexName="FK_FRSRPO213XCX4WNKOG82SSRFY">
+            <column name="RESOURCE_SERVER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-2.0.0_index_sub_3" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="POLICY_CONFIG" indexName="FKDC34197CF864C4E43">
+            <column name="POLICY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-2.0.0_index_sub_4" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SCOPE" indexName="FK_FRSRPOS13XCX4WNKOG82SSRFY">
+            <column name="RESOURCE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-2.0.0_index_sub_5" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_SCOPE" indexName="FK_FRSRPS213XCX4WNKOG82SSRFY">
+            <column name="SCOPE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-2.0.0_index_sub_6" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_POLICY" indexName="FK_FRSRPOS53XCX4WNKOG82SSRFY">
+            <column name="RESOURCE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-2.0.0_index_sub_7" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="RESOURCE_POLICY" indexName="FK_FRSRPP213XCX4WNKOG82SSRFY">
+            <column name="POLICY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-2.0.0_index_sub_8" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="SCOPE_POLICY" indexName="FK_FRSRPASS3XCX4WNKOG82SSRFY">
+            <column name="SCOPE_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-2.0.0_index_sub_9" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="SCOPE_POLICY" indexName="FK_FRSRASP13XCX4WNKOG82SSRFY">
+            <column name="POLICY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-2.0.0_index_sub_10" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="ASSOCIATED_POLICY" indexName="FK_FRSRPAS14XCX4WNKOG82SSRFY">
+            <column name="POLICY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-2.0.0_index_sub_11" author="psilva@redhat.com" runInTransaction="true">
+        <createIndex tableName="ASSOCIATED_POLICY" indexName="FK_FRSR5S213XCX4WNKOG82SSRFY">
+            <column name="ASSOCIATED_POLICY_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="authz-2.0.0_foreign_sub_0" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_SERVER_RESOURCE" baseColumnNames="RESOURCE_SERVER_ID" constraintName="FK_FRSRHO213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_foreign_sub_1" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_SERVER_SCOPE" baseColumnNames="RESOURCE_SERVER_ID" constraintName="FK_FRSRSO213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_foreign_sub_2" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_SERVER_POLICY" baseColumnNames="RESOURCE_SERVER_ID" constraintName="FK_FRSRPO213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_foreign_sub_3" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="POLICY_CONFIG" baseColumnNames="POLICY_ID" constraintName="FKDC34197CF864C4E43" referencedTableName="RESOURCE_SERVER_POLICY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_foreign_sub_4" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_SCOPE" baseColumnNames="RESOURCE_ID" constraintName="FK_FRSRPOS13XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_RESOURCE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_foreign_sub_5" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_SCOPE" baseColumnNames="SCOPE_ID" constraintName="FK_FRSRPS213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_SCOPE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_foreign_sub_6" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_POLICY" baseColumnNames="RESOURCE_ID" constraintName="FK_FRSRPOS53XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_RESOURCE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_foreign_sub_7" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="RESOURCE_POLICY" baseColumnNames="POLICY_ID" constraintName="FK_FRSRPP213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_POLICY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_foreign_sub_8" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="SCOPE_POLICY" baseColumnNames="SCOPE_ID" constraintName="FK_FRSRPASS3XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_SCOPE" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_foreign_sub_9" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="SCOPE_POLICY" baseColumnNames="POLICY_ID" constraintName="FK_FRSRASP13XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_POLICY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_foreign_sub_10" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="ASSOCIATED_POLICY" baseColumnNames="POLICY_ID" constraintName="FK_FRSRPAS14XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_POLICY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="authz-2.0.0_foreign_sub_11" author="psilva@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="ASSOCIATED_POLICY" baseColumnNames="ASSOCIATED_POLICY_ID" constraintName="FK_FRSR5S213XCX4WNKOG82SSRFY" referencedTableName="RESOURCE_SERVER_POLICY" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>

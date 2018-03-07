@@ -1,0 +1,1021 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="2.5.0_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <customChange class="org.keycloak.connections.jpa.updater.liquibase.custom.MigrateUserFedToComponent"/>
+    </changeSet>
+    <changeSet id="2.5.0_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="OFFLINE_USER_SESSION">
+            <column name="USER_ID_2" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <sql>update OFFLINE_USER_SESSION set USER_ID_2 = USER_ID</sql>
+    </changeSet>
+    <changeSet id="2.5.0_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn columnName="USER_ID" tableName="OFFLINE_USER_SESSION"/>
+    </changeSet>
+    <changeSet id="2.5.0_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <renameColumn oldColumnName="USER_ID_2" newColumnName="USER_ID" tableName="OFFLINE_USER_SESSION"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_0" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="AUTHENTICATION_FLOW">
+            <column name="DESCRIPTION_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_1" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update AUTHENTICATION_FLOW set DESCRIPTION_2 = DESCRIPTION</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_2" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="DESCRIPTION" tableName="AUTHENTICATION_FLOW"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_3" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="DESCRIPTION_2" newColumnName="DESCRIPTION" tableName="AUTHENTICATION_FLOW"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_4" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="CLIENT_TEMPLATE">
+            <column name="DESCRIPTION_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_5" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update CLIENT_TEMPLATE set DESCRIPTION_2 = DESCRIPTION</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_6" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="DESCRIPTION" tableName="CLIENT_TEMPLATE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_7" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="DESCRIPTION_2" newColumnName="DESCRIPTION" tableName="CLIENT_TEMPLATE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_8" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="RESOURCE_SERVER_POLICY">
+            <column name="DESCRIPTION_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_9" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update RESOURCE_SERVER_POLICY set DESCRIPTION_2 = DESCRIPTION</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_10" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="DESCRIPTION" tableName="RESOURCE_SERVER_POLICY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_11" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="DESCRIPTION_2" newColumnName="DESCRIPTION" tableName="RESOURCE_SERVER_POLICY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_12" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="CLIENT">
+            <column name="DESCRIPTION_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_13" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update CLIENT set DESCRIPTION_2 = DESCRIPTION</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_14" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="DESCRIPTION" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_15" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="DESCRIPTION_2" newColumnName="DESCRIPTION" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_16" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="CLIENT">
+            <column name="NAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_17" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update CLIENT set NAME_2 = NAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_18" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="NAME" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_19" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="NAME_2" newColumnName="NAME" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_20" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="USER_ENTITY">
+            <column name="FIRST_NAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_21" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update USER_ENTITY set FIRST_NAME_2 = FIRST_NAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_22" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="FIRST_NAME" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_23" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="FIRST_NAME_2" newColumnName="FIRST_NAME" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_24" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="USER_ENTITY">
+            <column name="LAST_NAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_25" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update USER_ENTITY set LAST_NAME_2 = LAST_NAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_26" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="LAST_NAME" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_27" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="LAST_NAME_2" newColumnName="LAST_NAME" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_28" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="USER_ENTITY">
+            <column name="USERNAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_29" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update USER_ENTITY set USERNAME_2 = USERNAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_30" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="USERNAME" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_31" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="USERNAME_2" newColumnName="USERNAME" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_32" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="USERNAME_LOGIN_FAILURE">
+            <column name="USERNAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_33" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update USERNAME_LOGIN_FAILURE set USERNAME_2 = USERNAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_34" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="USERNAME" tableName="USERNAME_LOGIN_FAILURE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_35" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="USERNAME_2" newColumnName="USERNAME" tableName="USERNAME_LOGIN_FAILURE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_36" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="KEYCLOAK_GROUP">
+            <column name="NAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_37" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update KEYCLOAK_GROUP set NAME_2 = NAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_38" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="NAME" tableName="KEYCLOAK_GROUP"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_39" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="NAME_2" newColumnName="NAME" tableName="KEYCLOAK_GROUP"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_40" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="USER_ATTRIBUTE">
+            <column name="VALUE_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_41" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update USER_ATTRIBUTE set VALUE_2 = VALUE</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_42" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="VALUE" tableName="USER_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_43" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="VALUE_2" newColumnName="VALUE" tableName="USER_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_44" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="GROUP_ATTRIBUTE">
+            <column name="VALUE_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_45" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update GROUP_ATTRIBUTE set VALUE_2 = VALUE</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_46" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="VALUE" tableName="GROUP_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_47" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="VALUE_2" newColumnName="VALUE" tableName="GROUP_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_48" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="REALM_ATTRIBUTE">
+            <column name="VALUE_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_49" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update REALM_ATTRIBUTE set VALUE_2 = VALUE</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_50" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="VALUE" tableName="REALM_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_51" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="VALUE_2" newColumnName="VALUE" tableName="REALM_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_52" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="COMPONENT_CONFIG">
+            <column name="VALUE_NEW" type="NCLOB"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_53" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>UPDATE COMPONENT_CONFIG SET VALUE_NEW = VALUE, VALUE = NULL</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_54" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="VALUE" tableName="COMPONENT_CONFIG"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_55" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="VALUE_NEW" newColumnName="VALUE" columnDataType="NCLOB" tableName="COMPONENT_CONFIG"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_56" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="KEYCLOAK_ROLE">
+            <column name="NAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_57" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update KEYCLOAK_ROLE set NAME_2 = NAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_58" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="NAME" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_59" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="NAME_2" newColumnName="NAME" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_60" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <addColumn tableName="KEYCLOAK_ROLE">
+            <column name="DESCRIPTION_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_61" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <sql>update KEYCLOAK_ROLE set DESCRIPTION_2 = DESCRIPTION</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_62" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <dropColumn columnName="DESCRIPTION" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-oracle_sub_63" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <dbms type="oracle"/>
+        </preConditions>
+        <renameColumn oldColumnName="DESCRIPTION_2" newColumnName="DESCRIPTION" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_0" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="AUTHENTICATION_FLOW">
+            <column name="DESCRIPTION_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_1" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update AUTHENTICATION_FLOW set DESCRIPTION_2 = DESCRIPTION</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_2" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="DESCRIPTION" tableName="AUTHENTICATION_FLOW"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_3" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="DESCRIPTION_2" newColumnName="DESCRIPTION" tableName="AUTHENTICATION_FLOW"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_4" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="CLIENT_TEMPLATE">
+            <column name="DESCRIPTION_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_5" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update CLIENT_TEMPLATE set DESCRIPTION_2 = DESCRIPTION</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_6" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="DESCRIPTION" tableName="CLIENT_TEMPLATE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_7" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="DESCRIPTION_2" newColumnName="DESCRIPTION" tableName="CLIENT_TEMPLATE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_8" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="RESOURCE_SERVER_POLICY">
+            <column name="DESCRIPTION_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_9" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update RESOURCE_SERVER_POLICY set DESCRIPTION_2 = DESCRIPTION</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_10" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="DESCRIPTION" tableName="RESOURCE_SERVER_POLICY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_11" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="DESCRIPTION_2" newColumnName="DESCRIPTION" tableName="RESOURCE_SERVER_POLICY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_12" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="CLIENT">
+            <column name="DESCRIPTION_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_13" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update CLIENT set DESCRIPTION_2 = DESCRIPTION</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_14" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="DESCRIPTION" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_15" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="DESCRIPTION_2" newColumnName="DESCRIPTION" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_16" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="CLIENT">
+            <column name="NAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_17" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update CLIENT set NAME_2 = NAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_18" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="NAME" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_19" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="NAME_2" newColumnName="NAME" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_20" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropIndex indexName="UK_RU8TT6T700S9V50BU18WS5HA6" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_21" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="USER_ENTITY">
+            <column name="FIRST_NAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_22" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update USER_ENTITY set FIRST_NAME_2 = FIRST_NAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_23" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="FIRST_NAME" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_24" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="FIRST_NAME_2" newColumnName="FIRST_NAME" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_25" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="USER_ENTITY">
+            <column name="LAST_NAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_26" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update USER_ENTITY set LAST_NAME_2 = LAST_NAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_27" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="LAST_NAME" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_28" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="LAST_NAME_2" newColumnName="LAST_NAME" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_29" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="USER_ENTITY">
+            <column name="USERNAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_30" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update USER_ENTITY set USERNAME_2 = USERNAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_31" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="USERNAME" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_32" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="USERNAME_2" newColumnName="USERNAME" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_33" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="REALM_ID,USERNAME" constraintName="UK_RU8TT6T700S9V50BU18WS5HA6" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_34a" author="hmlnarik@redhat.com">
+        <createTable tableName="USERNAME_LOGIN_FAILURE_2">
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_17-2"/>
+            </column>
+            <column name="USERNAME" type="NVARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_17-2"/>
+            </column>
+            <column name="FAILED_LOGIN_NOT_BEFORE" type="INT"/>
+            <column name="LAST_FAILURE" type="BIGINT"/>
+            <column name="LAST_IP_FAILURE" type="VARCHAR(255)"/>
+            <column name="NUM_FAILURES" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_34b" author="hmlnarik@redhat.com">
+        <sql>insert into USERNAME_LOGIN_FAILURE_2 (REALM_ID,USERNAME,FAILED_LOGIN_NOT_BEFORE,LAST_FAILURE,LAST_IP_FAILURE,NUM_FAILURES) select REALM_ID,USERNAME,FAILED_LOGIN_NOT_BEFORE,LAST_FAILURE,LAST_IP_FAILURE,NUM_FAILURES from USERNAME_LOGIN_FAILURE</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_34c" author="hmlnarik@redhat.com">
+        <dropTable tableName="USERNAME_LOGIN_FAILURE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_34d" author="hmlnarik@redhat.com">
+        <renameTable oldTableName="USERNAME_LOGIN_FAILURE_2" newTableName="USERNAME_LOGIN_FAILURE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_41" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="KEYCLOAK_GROUP">
+            <column name="NAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_42" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update KEYCLOAK_GROUP set NAME_2 = NAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_43" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="NAME" tableName="KEYCLOAK_GROUP"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_44" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="NAME_2" newColumnName="NAME" tableName="KEYCLOAK_GROUP"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_45" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="USER_ATTRIBUTE">
+            <column name="VALUE_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_46" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update USER_ATTRIBUTE set VALUE_2 = VALUE</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_47" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="VALUE" tableName="USER_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_48" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="VALUE_2" newColumnName="VALUE" tableName="USER_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_49" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="GROUP_ATTRIBUTE">
+            <column name="VALUE_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_50" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update GROUP_ATTRIBUTE set VALUE_2 = VALUE</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_51" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="VALUE" tableName="GROUP_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_52" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="VALUE_2" newColumnName="VALUE" tableName="GROUP_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_53" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="REALM_ATTRIBUTE">
+            <column name="VALUE_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_54" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update REALM_ATTRIBUTE set VALUE_2 = VALUE</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_55" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="VALUE" tableName="REALM_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_56" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="VALUE_2" newColumnName="VALUE" tableName="REALM_ATTRIBUTE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_57" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="COMPONENT_CONFIG">
+            <column name="VALUE_2" type="NVARCHAR(4000)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_58" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update COMPONENT_CONFIG set VALUE_2 = VALUE</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_59" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="VALUE" tableName="COMPONENT_CONFIG"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_60" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="VALUE_2" newColumnName="VALUE" tableName="COMPONENT_CONFIG"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_61" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropIndex indexName="UK_J3RWUVD56ONTGSUHOGM184WW2-2" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_62" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="KEYCLOAK_ROLE">
+            <column name="NAME_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_63" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update KEYCLOAK_ROLE set NAME_2 = NAME</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_64" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="NAME" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_65" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="NAME_2" newColumnName="NAME" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_66" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="NAME,CLIENT_REALM_CONSTRAINT" constraintName="UK_J3RWUVD56ONTGSUHOGM184WW2-2" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_67" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="KEYCLOAK_ROLE">
+            <column name="DESCRIPTION_2" type="NVARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_68" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <sql>update KEYCLOAK_ROLE set DESCRIPTION_2 = DESCRIPTION</sql>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_69" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="DESCRIPTION" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="2.5.0-unicode-other-dbs_sub_70" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="oracle"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="DESCRIPTION_2" newColumnName="DESCRIPTION" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="2.5.0-duplicate-email-support_sub_0" author="slawomir@dabek.name" runInTransaction="true">
+        <addColumn tableName="REALM">
+            <column name="LOGIN_WITH_EMAIL_ALLOWED" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DUPLICATE_EMAILS_ALLOWED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.5.0-unique-group-names_sub_0" author="hmlnarik@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="REALM_ID,PARENT_GROUP,NAME" constraintName="SIBLING_NAMES" tableName="KEYCLOAK_GROUP"/>
+    </changeSet>
+</databaseChangeLog>

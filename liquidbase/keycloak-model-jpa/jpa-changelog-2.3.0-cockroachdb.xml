@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="2.3.0_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <createTable tableName="FEDERATED_USER">
+            <column name="ID" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTR_FEDERATED_USER"/>
+            </column>
+            <column name="STORAGE_PROVIDER_ID" type="VARCHAR(255)">
+            </column>
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2.3.0_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <dropDefaultValue columnName="TOTP" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.3.0_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn columnName="TOTP" tableName="USER_ENTITY"/>
+    </changeSet>
+    <changeSet id="2.3.0_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="IDENTITY_PROVIDER">
+            <column name="PROVIDER_DISPLAY_NAME" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.3.0_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="COMPONENT">
+            <column name="SUB_TYPE" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2.3.0_sub_5" author="bburke@redhat.com" runInTransaction="true">
+        <customChange class="org.keycloak.connections.jpa.updater.liquibase.custom.ExtractRealmKeysFromRealmTable"/>
+    </changeSet>
+    <changeSet id="2.3.0_sub_6" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn columnName="CODE_SECRET" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="2.3.0_sub_7" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn columnName="PRIVATE_KEY" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="2.3.0_sub_8" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn columnName="PUBLIC_KEY" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="2.3.0_sub_9" author="bburke@redhat.com" runInTransaction="true">
+        <dropColumn columnName="CERTIFICATE" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="2.3.0_sub_10" author="bburke@redhat.com" runInTransaction="true">
+        <addColumn tableName="USER_CONSENT">
+            <column name="CREATED_DATE" type="BIGINT"/>
+            <column name="LAST_UPDATED_DATE" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

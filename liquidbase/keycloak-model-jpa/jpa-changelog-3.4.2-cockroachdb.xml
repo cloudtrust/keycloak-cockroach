@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="3.4.2_sub_0" author="keycloak" runInTransaction="true">
+        <update tableName="REALM">
+            <column name="REFRESH_TOKEN_MAX_REUSE" type="INT" valueNumeric="0"/>
+            <where>REFRESH_TOKEN_MAX_REUSE IS NULL</where>
+        </update>
+    </changeSet>
+    <changeSet id="3.4.2-KEYCLOAK-5172_sub_0" author="mkanis@redhat.com" runInTransaction="true">
+        <update tableName="CLIENT">
+            <column name="PROTOCOL" type="VARCHAR(255)" value="openid-connect"/>
+            <where>PROTOCOL IS NULL</where>
+        </update>
+    </changeSet>
+</databaseChangeLog>

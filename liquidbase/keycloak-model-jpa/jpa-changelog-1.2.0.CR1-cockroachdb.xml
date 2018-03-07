@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+    <changeSet id="1.2.0.RC1_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="CLIENT_SESSION_ROLE"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="CLIENT_SESSION_NOTE"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="CLIENT_SESSION"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="USER_SESSION_NOTE"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <delete tableName="USER_SESSION"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_5" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="MIGRATION_MODEL">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_MIGMOD"/>
+            </column>
+            <column name="VERSION" type="VARCHAR(36)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_6" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="IDENTITY_PROVIDER_MAPPER">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_IDPM"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IDP_ALIAS" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="IDP_MAPPER_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_7" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="IDP_MAPPER_CONFIG">
+            <column name="IDP_MAPPER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_IDPMConfig"/>
+            </column>
+            <column name="VALUE" type="CLOB"/>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_IDPMConfig"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_8" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="CREDENTIAL">
+            <column name="CREATED_DATE" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_9" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_CONSENT">
+            <column name="ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_GRNTCSNT_PM"/>
+            </column>
+            <column name="CLIENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_10" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_CONSENT_ROLE">
+            <column name="USER_CONSENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_GRNTCSNT_ROLE_PM"/>
+            </column>
+            <column name="ROLE_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_GRNTCSNT_ROLE_PM"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_11" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USER_CONSENT_PROT_MAPPER">
+            <column name="USER_CONSENT_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_GRNTCSNT_PRM_PM"/>
+            </column>
+            <column name="PROTOCOL_MAPPER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_GRNTCSNT_PRM_PM"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_12" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <createTable tableName="CLIENT_SESSION_PROT_MAPPER">
+            <column name="PROTOCOL_MAPPER_ID" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_CS_PMP_PK"/>
+            </column>
+            <column name="CLIENT_SESSION" type="VARCHAR(36)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_CS_PMP_PK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_13" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="NAME" newColumnName="CLIENT_ID" columnDataType="VARCHAR(255)" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_14" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="CLIENT">
+            <column name="CONSENT_REQUIRED" type="BOOLEAN" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_15" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="IDENTITY_PROVIDER">
+            <column name="ADD_TOKEN_ROLE" type="BOOLEAN" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_16" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <update tableName="CLIENT">
+            <column name="CONSENT_REQUIRED" valueBoolean="true"/>
+            <where>DTYPE = 'OAuthClientEntity'</where>
+        </update>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_17" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropColumn columnName="DTYPE" tableName="CLIENT"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_18" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropForeignKeyConstraint baseTableName="REALM" constraintName="FK_RSAF444KK6QRKMS7N56AIWQ5Y"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_19" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="MASTER_ADMIN_APP" newColumnName="MASTER_ADMIN_CLIENT" columnDataType="VARCHAR(36)" tableName="REALM"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_20" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropForeignKeyConstraint baseTableName="REALM_APPLICATION" constraintName="FK_82S3P0DIUXAWWQQSA528UBY2Q"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_21" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameTable oldTableName="REALM_APPLICATION" newTableName="REALM_CLIENT"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_22" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="APPLICATION_ID" newColumnName="CLIENT_ID" columnDataType="VARCHAR(36)" tableName="REALM_CLIENT"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_23" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropForeignKeyConstraint baseTableName="APPLICATION_DEFAULT_ROLES" constraintName="FK_MAYLTS7KLWQW2H8M2B5JOYTKY"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_24" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameTable oldTableName="APPLICATION_DEFAULT_ROLES" newTableName="CLIENT_DEFAULT_ROLES"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_25" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="APPLICATION_ID" newColumnName="CLIENT_ID" columnDataType="VARCHAR(36)" tableName="CLIENT_DEFAULT_ROLES"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_26" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropForeignKeyConstraint baseTableName="APP_NODE_REGISTRATIONS" constraintName="FK8454723BA992F594"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_27" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameTable oldTableName="APP_NODE_REGISTRATIONS" newTableName="CLIENT_NODE_REGISTRATIONS"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_28" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="APPLICATION_ID" newColumnName="CLIENT_ID" columnDataType="VARCHAR(36)" tableName="CLIENT_NODE_REGISTRATIONS"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_29" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropForeignKeyConstraint baseTableName="KEYCLOAK_ROLE" constraintName="FK_PIMO5LE2C0RAL09FL8CM9WFW9"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_30" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="APPLICATION" newColumnName="CLIENT" columnDataType="VARCHAR(36)" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_31" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="APPLICATION_ROLE" newColumnName="CLIENT_ROLE" columnDataType="BOOLEAN" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_32" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <renameColumn oldColumnName="APP_REALM_CONSTRAINT" newColumnName="CLIENT_REALM_CONSTRAINT" columnDataType="VARCHAR(36)" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_33" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <dropIndex indexName="UK_J3RWUVD56ONTGSUHOGM184WW2" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_34" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="NAME,CLIENT_REALM_CONSTRAINT" constraintName="UK_J3RWUVD56ONTGSUHOGM184WW2-2" tableName="KEYCLOAK_ROLE"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_35" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <addUniqueConstraint columnNames="CLIENT_ID, USER_ID" constraintName="UK_JKUWUVD56ONTGSUHOGM8UEWRT" tableName="USER_CONSENT"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_sub_36" author="bburke@redhat.com" runInTransaction="true">
+        <preConditions onFail="MARK_RAN" onSqlOutput="TEST">
+            <not>
+                <dbms type="db2"/>
+            </not>
+        </preConditions>
+        <customChange class="org.keycloak.connections.jpa.updater.liquibase.custom.JpaUpdate1_2_0_CR1"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_index_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="IDENTITY_PROVIDER_MAPPER" indexName="FK_IDPM_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_index_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="IDP_MAPPER_CONFIG" indexName="FK_IDPMConfig">
+            <column name="IDP_MAPPER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_index_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_CONSENT" indexName="FK_GRNTCSNT_USER">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_index_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_CONSENT_ROLE" indexName="FK_GRNTCSNT_ROLE_GR">
+            <column name="USER_CONSENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_index_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="USER_CONSENT_PROT_MAPPER" indexName="FK_GRNTCSNT_PRM_GR">
+            <column name="USER_CONSENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_index_sub_5" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT_SESSION_PROT_MAPPER" indexName="FK_33A8SGQW18I532811V7O2DK89">
+            <column name="CLIENT_SESSION"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_index_sub_6" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM" indexName="FK_TRAF444KK6QRKMS7N56AIWQ5Y">
+            <column name="MASTER_ADMIN_CLIENT"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_index_sub_7" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="REALM_CLIENT" indexName="FK_93S3P0DIUXAWWQQSA528UBY2Q">
+            <column name="CLIENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_index_sub_8" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT_DEFAULT_ROLES" indexName="FK_NUILTS7KLWQW2H8M2B5JOYTKY">
+            <column name="CLIENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_index_sub_9" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="CLIENT_NODE_REGISTRATIONS" indexName="FK4129723BA992F594">
+            <column name="CLIENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_index_sub_10" author="bburke@redhat.com" runInTransaction="true">
+        <createIndex tableName="KEYCLOAK_ROLE" indexName="FK_KJHO5LE2C0RAL09FL8CM9WFW9">
+            <column name="CLIENT"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_foreign_sub_0" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="IDENTITY_PROVIDER_MAPPER" baseColumnNames="REALM_ID" constraintName="FK_IDPM_REALM" referencedTableName="REALM" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_foreign_sub_1" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="IDP_MAPPER_CONFIG" baseColumnNames="IDP_MAPPER_ID" constraintName="FK_IDPMConfig" referencedTableName="IDENTITY_PROVIDER_MAPPER" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_foreign_sub_2" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_CONSENT" baseColumnNames="USER_ID" constraintName="FK_GRNTCSNT_USER" referencedTableName="USER_ENTITY" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_foreign_sub_3" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_CONSENT_ROLE" baseColumnNames="USER_CONSENT_ID" constraintName="FK_GRNTCSNT_ROLE_GR" referencedTableName="USER_CONSENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_foreign_sub_4" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="USER_CONSENT_PROT_MAPPER" baseColumnNames="USER_CONSENT_ID" constraintName="FK_GRNTCSNT_PRM_GR" referencedTableName="USER_CONSENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_foreign_sub_5" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_SESSION_PROT_MAPPER" baseColumnNames="CLIENT_SESSION" constraintName="FK_33A8SGQW18I532811V7O2DK89" referencedTableName="CLIENT_SESSION" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_foreign_sub_6" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM" baseColumnNames="MASTER_ADMIN_CLIENT" constraintName="FK_TRAF444KK6QRKMS7N56AIWQ5Y" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_foreign_sub_7" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="REALM_CLIENT" baseColumnNames="CLIENT_ID" constraintName="FK_93S3P0DIUXAWWQQSA528UBY2Q" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_foreign_sub_8" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_DEFAULT_ROLES" baseColumnNames="CLIENT_ID" constraintName="FK_NUILTS7KLWQW2H8M2B5JOYTKY" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_foreign_sub_9" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="CLIENT_NODE_REGISTRATIONS" baseColumnNames="CLIENT_ID" constraintName="FK4129723BA992F594" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+    <changeSet id="1.2.0.RC1_foreign_sub_10" author="bburke@redhat.com" runInTransaction="true">
+        <addForeignKeyConstraint baseTableName="KEYCLOAK_ROLE" baseColumnNames="CLIENT" constraintName="FK_KJHO5LE2C0RAL09FL8CM9WFW9" referencedTableName="CLIENT" referencedColumnNames="ID"/>
+    </changeSet>
+</databaseChangeLog>
